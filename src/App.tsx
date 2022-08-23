@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 
 interface State {
-  source: Container
-  sink: Container
+  source: ContainerState
+  sink: ContainerState
 }
 
-interface Container {
+interface ContainerState {
   count: number
 }
 
