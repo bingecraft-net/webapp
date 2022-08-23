@@ -1,21 +1,25 @@
 import { useEffect, useState } from 'react'
 
 interface State {
-  source: ContainerState
-  sink: ContainerState
+  containers: ContainerState[]
 }
 
 interface ContainerState {
+  id: string
   count: number
 }
 
 const defaultState: State = {
-  source: {
-    count: 0,
-  },
-  sink: {
-    count: 0,
-  },
+  containers: [
+    {
+      id: 'source',
+      count: 0,
+    },
+    {
+      id: 'sink',
+      count: 0,
+    },
+  ],
 }
 
 export default function App() {
@@ -23,14 +27,24 @@ export default function App() {
   const [state, setState] = useState<State>(defaultState)
   useEffect(() => {
     setState((state) => {
-      if (state.source.count > 0) {
+      const source = state.containers.find(
+        (container) => container.id === 'source',
+      )!
+      const sink = state.containers.find(
+        (container) => container.id === 'sink',
+      )!
+      if (source.count > 0) {
         return {
-          source: {
-            count: state.source.count - 1,
-          },
-          sink: {
-            count: state.sink.count + 1,
-          },
+          containers: [
+            {
+              ...source,
+              count: source.count - 1,
+            },
+            {
+              ...sink,
+              count: sink.count + 1,
+            },
+          ],
         }
       } else return state
     })
@@ -41,8 +55,11 @@ export default function App() {
       <button
         onClick={() =>
           setState((state) => ({
-            ...state,
-            source: { count: state.source.count + 16 },
+            containers: state.containers.map((container) =>
+              container.id === 'source'
+                ? { ...container, count: container.count + 16 }
+                : container,
+            ),
           }))
         }
       >
