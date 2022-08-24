@@ -5,18 +5,18 @@ interface State {
 }
 
 interface ContainerState {
-  id: string
+  key: string
   count: number
 }
 
 const defaultState: State = {
   containers: [
     {
-      id: 'source',
+      key: 'source',
       count: 0,
     },
     {
-      id: 'sink',
+      key: 'sink',
       count: 0,
     },
   ],
@@ -28,10 +28,10 @@ export default function App() {
   useEffect(() => {
     setState((state) => {
       const source = state.containers.find(
-        (container) => container.id === 'source',
+        (container) => container.key === 'source',
       )!
       const sink = state.containers.find(
-        (container) => container.id === 'sink',
+        (container) => container.key === 'sink',
       )!
       if (source.count > 0) {
         return {
@@ -56,7 +56,7 @@ export default function App() {
         onClick={() =>
           setState((state) => ({
             containers: state.containers.map((container) =>
-              container.id === 'source'
+              container.key === 'source'
                 ? { ...container, count: container.count + 16 }
                 : container,
             ),
