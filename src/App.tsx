@@ -143,16 +143,32 @@ interface ContainerProps {
 }
 function Container({ dispatch, _key, container }: ContainerProps) {
   return (
-    <>
-      <div>{JSON.stringify({ ...container, _key })}</div>
+    <div
+      style={{
+        width: '8rem',
+        height: '8rem',
+        backgroundColor:
+          container.type === 'source'
+            ? `hsl(20,100%,75%)`
+            : `hsl(40,100%,75%)`,
+        padding: '1rem',
+        boxSizing: 'border-box',
+      }}
+    >
+      <div>
+        {_key}
+        {container.inventory?.count
+          ? `: ${container.inventory.count} iron rod`
+          : ''}
+      </div>
       <button
         onClick={() => dispatch({ type: 'insert' })}
         style={{
           visibility: container.type === 'source' ? 'visible' : 'hidden',
         }}
       >
-        add 16
+        add 16 iron rod
       </button>
-    </>
+    </div>
   )
 }
