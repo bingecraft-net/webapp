@@ -43,7 +43,14 @@ export default function App() {
   useEffect(() => setState(tick), [frame])
   return (
     <>
-      <div>{JSON.stringify(state)}</div>
+      <div>adjacencies: {JSON.stringify(state.adjacencies)}</div>
+      {state.containers.map((container, key) => (
+        <Container
+          key={key.toString()}
+          _key={key.toString()}
+          state={container}
+        />
+      ))}
       <button
         onClick={() =>
           setState((state) => ({
@@ -116,4 +123,12 @@ export function tick(state: State) {
       }),
     ),
   }
+}
+
+interface ContainerProps {
+  _key: string
+  state: ContainerState
+}
+function Container({ _key, state }: ContainerProps) {
+  return <div>{JSON.stringify({ ...state, _key })}</div>
 }
