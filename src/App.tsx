@@ -13,7 +13,7 @@ function reducer(state: State, action: Action): State {
               ? {
                   ...container,
                   inventory: {
-                    count: container.inventory.count + 16,
+                    count: (container.inventory?.count || 0) + 16,
                   },
                 }
               : container,
@@ -33,7 +33,7 @@ export interface Adjacency {
 }
 
 export interface ContainerState {
-  inventory: Inventory
+  inventory: Inventory | null
   type: 'source' | 'sink'
 }
 
@@ -50,15 +50,11 @@ const defaultState: State = {
   containers: [
     {
       type: 'source',
-      inventory: {
-        count: 0,
-      },
+      inventory: null,
     },
     {
       type: 'sink',
-      inventory: {
-        count: 0,
-      },
+      inventory: null,
     },
   ],
 }
@@ -106,12 +102,20 @@ export function tick(state: State) {
       toIndex: to,
     }))
     .forEach(({ from, fromIndex, to, toIndex }) => {
-      if (from.type === 'source' && from.inventory.count > 0) {
+      if (
+        from.type === 'source' &&
+        from.inventory &&
+        from.inventory.count > 0
+      ) {
         const fromCountDifference = offsetByIndex.get(fromIndex) || 0 - 1
         const toCountDifference = offsetByIndex.get(toIndex) || 0 + 1
         offsetByIndex.set(fromIndex, fromCountDifference)
         offsetByIndex.set(toIndex, toCountDifference)
-      } else if (to.type === 'source' && to.inventory.count > 0) {
+      } else if (
+        to.type === 'source' &&
+        to.inventory &&
+        to.inventory.count > 0
+      ) {
         const fromCountDifference = offsetByIndex.get(fromIndex) || 0 + 1
         const toCountDifference = offsetByIndex.get(toIndex) || 0 - 1
         offsetByIndex.set(fromIndex, fromCountDifference)
@@ -121,13 +125,15 @@ export function tick(state: State) {
   return {
     ...state,
     containers: state.containers.map(
-      (container, index): ContainerState => ({
-        ...container,
-        inventory: {
-          count:
-            container.inventory.count + (offsetByIndex.get(index) || 0),
-        },
-      }),
+      (container, index): ContainerState => {
+        const count =
+          (container.inventory?.count || 0) +
+          (offsetByIndex.get(index) || 0)
+        return {
+          ...container,
+          inventory: count !== 0 ? { count } : null,
+        }
+      },
     ),
   }
 }
