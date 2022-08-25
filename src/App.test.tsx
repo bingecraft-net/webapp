@@ -11,7 +11,7 @@ describe('tick', () => {
     const adjacencies = new Array<Adjacency>()
     const containers: ContainerState[] = [
       { type: 'source', inventory: { count: 16 } },
-      { type: 'sink', inventory: null },
+      { type: 'sink', inventory: undefined },
     ]
     expect(
       tick({
@@ -31,14 +31,14 @@ describe('tick', () => {
           adjacencies,
           containers: [
             { type: 'source', inventory: { count: 1 } },
-            { type: 'sink', inventory: null },
+            { type: 'sink' },
           ],
         }),
       ),
     ).toStrictEqual<State>({
       adjacencies,
       containers: [
-        { type: 'source', inventory: null },
+        { type: 'source', inventory: undefined },
         { type: 'sink', inventory: { count: 1 } },
       ],
     })
@@ -51,7 +51,7 @@ describe('tick', () => {
           adjacencies,
           containers: [
             { type: 'source', inventory: { count: 16 } },
-            { type: 'sink', inventory: null },
+            { type: 'sink' },
           ],
         }),
       ),
@@ -71,7 +71,7 @@ describe('tick', () => {
           adjacencies,
           containers: [
             { type: 'source', inventory: { count: 16 } },
-            { type: 'sink', inventory: null },
+            { type: 'sink' },
           ],
         }),
       ),

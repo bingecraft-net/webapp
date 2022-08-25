@@ -33,7 +33,7 @@ export interface Adjacency {
 }
 
 export interface ContainerState {
-  inventory: Inventory | null
+  inventory?: Inventory
   type: 'source' | 'sink'
 }
 
@@ -50,11 +50,9 @@ const defaultState: State = {
   containers: [
     {
       type: 'source',
-      inventory: null,
     },
     {
       type: 'sink',
-      inventory: null,
     },
   ],
 }
@@ -131,7 +129,7 @@ export function tick(state: State) {
           (offsetByIndex.get(index) || 0)
         return {
           ...container,
-          inventory: count !== 0 ? { count } : null,
+          inventory: count !== 0 ? { count } : undefined,
         }
       },
     ),
