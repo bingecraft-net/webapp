@@ -41,9 +41,7 @@ export default function App() {
           setState((state) => ({
             ...state,
             containers: state.containers.map((container) =>
-              container.type === 'source'
-                ? { ...container, count: container.count + 16 }
-                : container,
+              container.type === 'source' ? insert(container) : container,
             ),
           }))
         }
@@ -52,6 +50,13 @@ export default function App() {
       </button>
     </>
   )
+}
+
+function insert(container: ContainerState): ContainerState {
+  return {
+    ...container,
+    count: container.inventory.count + 16,
+  }
 }
 
 export function tick(state: State) {
