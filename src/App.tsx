@@ -48,10 +48,16 @@ export default function App() {
         onClick={() =>
           setState((state) => ({
             ...state,
-            containers: state.containers.map((container) =>
-              container.type === 'source'
-                ? insert16(container)
-                : container,
+            containers: state.containers.map(
+              (container): ContainerState =>
+                container.type === 'source'
+                  ? {
+                      ...container,
+                      inventory: {
+                        count: container.inventory.count + 16,
+                      },
+                    }
+                  : container,
             ),
           }))
         }
@@ -62,13 +68,18 @@ export default function App() {
   )
 }
 
-function insert16(container: ContainerState): ContainerState {
-  return {
-    ...container,
-    inventory: {
-      count: container.inventory.count + 16,
-    },
-  }
+function useFrame() {
+  const [frame, setFrame] = useState(0)
+  useEffect(() => {
+    let timeout: NodeJS.Timeout
+    async function tick() {
+      setFrame((tick) => tick + 1)
+      timeout = setTimeout(tick, 1000 / 20)
+    }
+    tick()
+    return () => clearTimeout(timeout)
+  }, [])
+  return frame
 }
 
 export function tick(state: State) {
@@ -105,18 +116,4 @@ export function tick(state: State) {
       }),
     ),
   }
-}
-
-function useFrame() {
-  const [frame, setFrame] = useState(0)
-  useEffect(() => {
-    let timeout: NodeJS.Timeout
-    async function tick() {
-      setFrame((tick) => tick + 1)
-      timeout = setTimeout(tick, 1000 / 20)
-    }
-    tick()
-    return () => clearTimeout(timeout)
-  }, [])
-  return frame
 }
