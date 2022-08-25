@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-interface State {
+export interface State {
   adjacencies: Adjacency[]
   containers: ContainerState[]
 }
@@ -11,8 +11,12 @@ export interface Adjacency {
 }
 
 export interface ContainerState {
-  count: number
+  inventory: Inventory
   type: 'source' | 'sink'
+}
+
+export interface Inventory {
+  count: number
 }
 
 const defaultState: State = {
@@ -20,11 +24,15 @@ const defaultState: State = {
   containers: [
     {
       type: 'source',
-      count: 0,
+      inventory: {
+        count: 0,
+      },
     },
     {
       type: 'sink',
-      count: 0,
+      inventory: {
+        count: 0,
+      },
     },
   ],
 }
@@ -41,7 +49,9 @@ export default function App() {
           setState((state) => ({
             ...state,
             containers: state.containers.map((container) =>
-              container.type === 'source' ? insert(container) : container,
+              container.type === 'source'
+                ? insert16(container)
+                : container,
             ),
           }))
         }
@@ -52,10 +62,12 @@ export default function App() {
   )
 }
 
-function insert(container: ContainerState): ContainerState {
+function insert16(container: ContainerState): ContainerState {
   return {
     ...container,
-    count: container.inventory.count + 16,
+    inventory: {
+      count: container.inventory.count + 16,
+    },
   }
 }
 
@@ -69,12 +81,12 @@ export function tick(state: State) {
       toIndex: to,
     }))
     .forEach(({ from, fromIndex, to, toIndex }) => {
-      if (from.type === 'source' && from.count > 0) {
+      if (from.type === 'source' && from.inventory.count > 0) {
         const fromCountDifference = offsetByIndex.get(fromIndex) || 0 - 1
         const toCountDifference = offsetByIndex.get(toIndex) || 0 + 1
         offsetByIndex.set(fromIndex, fromCountDifference)
         offsetByIndex.set(toIndex, toCountDifference)
-      } else if (to.type === 'source' && to.count > 0) {
+      } else if (to.type === 'source' && to.inventory.count > 0) {
         const fromCountDifference = offsetByIndex.get(fromIndex) || 0 + 1
         const toCountDifference = offsetByIndex.get(toIndex) || 0 - 1
         offsetByIndex.set(fromIndex, fromCountDifference)
@@ -83,10 +95,15 @@ export function tick(state: State) {
     })
   return {
     ...state,
-    containers: state.containers.map((container, index) => ({
-      ...container,
-      count: container.count + (offsetByIndex.get(index) || 0),
-    })),
+    containers: state.containers.map(
+      (container, index): ContainerState => ({
+        ...container,
+        inventory: {
+          count:
+            container.inventory.count + (offsetByIndex.get(index) || 0),
+        },
+      }),
+    ),
   }
 }
 

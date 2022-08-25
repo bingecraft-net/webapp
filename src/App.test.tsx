@@ -1,4 +1,4 @@
-import { Adjacency, ContainerState, tick } from './App'
+import { Adjacency, ContainerState, State, tick } from './App'
 
 describe('tick', () => {
   test('do nothing', () => {
@@ -10,15 +10,15 @@ describe('tick', () => {
   test('no transfer to non-adjacent', () => {
     const adjacencies = new Array<Adjacency>()
     const containers: ContainerState[] = [
-      { type: 'source', count: 16 },
-      { type: 'sink', count: 0 },
+      { type: 'source', inventory: { count: 16 } },
+      { type: 'sink', inventory: { count: 0 } },
     ]
     expect(
       tick({
         adjacencies,
         containers,
       }),
-    ).toStrictEqual({
+    ).toStrictEqual<State>({
       adjacencies,
       containers,
     })
@@ -30,16 +30,16 @@ describe('tick', () => {
         tick({
           adjacencies,
           containers: [
-            { type: 'source', count: 1 },
-            { type: 'sink', count: 0 },
+            { type: 'source', inventory: { count: 1 } },
+            { type: 'sink', inventory: { count: 0 } },
           ],
         }),
       ),
-    ).toStrictEqual({
+    ).toStrictEqual<State>({
       adjacencies,
       containers: [
-        { type: 'source', count: 0 },
-        { type: 'sink', count: 1 },
+        { type: 'source', inventory: { count: 0 } },
+        { type: 'sink', inventory: { count: 1 } },
       ],
     })
   })
@@ -50,16 +50,16 @@ describe('tick', () => {
         tick({
           adjacencies,
           containers: [
-            { type: 'source', count: 16 },
-            { type: 'sink', count: 0 },
+            { type: 'source', inventory: { count: 16 } },
+            { type: 'sink', inventory: { count: 0 } },
           ],
         }),
       ),
-    ).toStrictEqual({
+    ).toStrictEqual<State>({
       adjacencies,
       containers: [
-        { type: 'source', count: 14 },
-        { type: 'sink', count: 2 },
+        { type: 'source', inventory: { count: 14 } },
+        { type: 'sink', inventory: { count: 2 } },
       ],
     })
   })
@@ -70,16 +70,16 @@ describe('tick', () => {
         tick({
           adjacencies,
           containers: [
-            { type: 'source', count: 16 },
-            { type: 'sink', count: 0 },
+            { type: 'source', inventory: { count: 16 } },
+            { type: 'sink', inventory: { count: 0 } },
           ],
         }),
       ),
-    ).toStrictEqual({
+    ).toStrictEqual<State>({
       adjacencies,
       containers: [
-        { type: 'source', count: 14 },
-        { type: 'sink', count: 2 },
+        { type: 'source', inventory: { count: 14 } },
+        { type: 'sink', inventory: { count: 2 } },
       ],
     })
   })
