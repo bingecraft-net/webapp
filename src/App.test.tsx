@@ -43,7 +43,7 @@ describe('tick', () => {
       ],
     })
   })
-  test('transfer forward one to adjacent', () => {
+  test('transfer forward two to adjacent', () => {
     const adjacencies = [{ from: 0, to: 1 }]
     expect(
       tick(
@@ -63,7 +63,7 @@ describe('tick', () => {
       ],
     })
   })
-  test('transfer backward one to adjacent', () => {
+  test('transfer backward two to adjacent', () => {
     const adjacencies = [{ from: 1, to: 0 }]
     expect(
       tick(
