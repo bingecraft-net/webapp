@@ -1,4 +1,26 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useReducer, useState } from 'react'
+
+function reducer(state: State, action: Action): State {
+  switch (action.type) {
+    case 'tick':
+      return tick(state)
+    case 'insert':
+      return {
+        ...state,
+        containers: state.containers.map(
+          (container): ContainerState =>
+            container.type === 'source'
+              ? {
+                  ...container,
+                  inventory: {
+                    count: container.inventory.count + 16,
+                  },
+                }
+              : container,
+        ),
+      }
+  }
+}
 
 export interface State {
   adjacencies: Adjacency[]
@@ -17,6 +39,10 @@ export interface ContainerState {
 
 export interface Inventory {
   count: number
+}
+
+interface Action {
+  type: 'tick' | 'insert'
 }
 
 const defaultState: State = {
@@ -38,39 +64,20 @@ const defaultState: State = {
 }
 
 export default function App() {
+  const [state, dispatch] = useReducer(reducer, defaultState)
   const frame = useFrame()
-  const [state, setState] = useState<State>(defaultState)
-  useEffect(() => setState(tick), [frame])
+  useEffect(() => dispatch({ type: 'tick' }), [frame])
   return (
     <>
       <div>adjacencies: {JSON.stringify(state.adjacencies)}</div>
       {state.containers.map((container, key) => (
         <Container
+          dispatch={dispatch}
           key={key.toString()}
           _key={key.toString()}
-          state={container}
+          container={container}
         />
       ))}
-      <button
-        onClick={() =>
-          setState((state) => ({
-            ...state,
-            containers: state.containers.map(
-              (container): ContainerState =>
-                container.type === 'source'
-                  ? {
-                      ...container,
-                      inventory: {
-                        count: container.inventory.count + 16,
-                      },
-                    }
-                  : container,
-            ),
-          }))
-        }
-      >
-        add 16 to source container
-      </button>
     </>
   )
 }
@@ -126,9 +133,22 @@ export function tick(state: State) {
 }
 
 interface ContainerProps {
+  dispatch: React.Dispatch<any>
   _key: string
-  state: ContainerState
+  container: ContainerState
 }
-function Container({ _key, state }: ContainerProps) {
-  return <div>{JSON.stringify({ ...state, _key })}</div>
+function Container({ dispatch, _key, container }: ContainerProps) {
+  return (
+    <>
+      <div>{JSON.stringify({ ...container, _key })}</div>
+      <button
+        onClick={() => dispatch({ type: 'insert' })}
+        style={{
+          visibility: container.type === 'source' ? 'visible' : 'hidden',
+        }}
+      >
+        add 16
+      </button>
+    </>
+  )
 }
