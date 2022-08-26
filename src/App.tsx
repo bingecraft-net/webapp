@@ -6,6 +6,8 @@ function reducer(state: State, action: Action): State {
       return tick(state)
     case 'insert':
       return insert(state, action.inventory)
+    case 'dump':
+      return dump(state)
   }
 }
 
@@ -85,6 +87,19 @@ export function insert(state: State, inventory: Inventory): State {
     ),
   }
 }
+
+export function dump(state: State): State {
+  return {
+    ...state,
+    containers: state.containers.map(
+      ({ inventory, ...container }): ContainerState =>
+        container.type === 'sink'
+          ? { ...container }
+          : { ...container, inventory },
+    ),
+  }
+}
+
 export interface State {
   adjacencies: Adjacency[]
   containers: ContainerState[]
@@ -105,7 +120,9 @@ export interface Inventory {
   name: 'iron rod' | 'iron gear'
 }
 
-type Action = { type: 'tick' } | { type: 'insert'; inventory: Inventory }
+type Action =
+  | { type: 'tick' | 'dump' }
+  | { type: 'insert'; inventory: Inventory }
 
 const defaultState: State = {
   adjacencies: [{ from: 0, to: 1 }],
@@ -177,38 +194,41 @@ function Container({ dispatch, _key, container }: ContainerProps) {
           ? `: ${container.inventory.count} ${container.inventory.name}`
           : ''}
       </div>
-      <div
-        style={{
-          visibility: container.type === 'source' ? 'visible' : 'hidden',
-        }}
-      >
-        <button
-          onClick={() =>
-            dispatch({
-              type: 'insert',
-              inventory: { count: 8, name: 'iron rod' },
-            })
-          }
-          disabled={
-            container.inventory && container.inventory.name !== 'iron rod'
-          }
-        >
-          add 8 iron rod
-        </button>
-        <button
-          onClick={() =>
-            dispatch({
-              type: 'insert',
-              inventory: { count: 8, name: 'iron gear' },
-            })
-          }
-          disabled={
-            container.inventory && container.inventory.name !== 'iron gear'
-          }
-        >
-          add 8 iron gear
-        </button>
-      </div>
+      {container.type === 'source' && (
+        <>
+          <button
+            onClick={() =>
+              dispatch({
+                type: 'insert',
+                inventory: { count: 8, name: 'iron rod' },
+              })
+            }
+            disabled={
+              container.inventory &&
+              container.inventory.name !== 'iron rod'
+            }
+          >
+            add 8 iron rod
+          </button>
+          <button
+            onClick={() =>
+              dispatch({
+                type: 'insert',
+                inventory: { count: 8, name: 'iron gear' },
+              })
+            }
+            disabled={
+              container.inventory &&
+              container.inventory.name !== 'iron gear'
+            }
+          >
+            add 8 iron gear
+          </button>
+        </>
+      )}
+      {container.type === 'sink' && (
+        <button onClick={() => dispatch({ type: 'dump' })}>dump</button>
+      )}
     </div>
   )
 }
