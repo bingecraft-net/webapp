@@ -10,7 +10,7 @@ function reducer(state: State, action: Action): State {
 }
 
 export function tick(state: State) {
-  const offsetByIndex = new Map<number, number>()
+  const overrides = new Map<number, Inventory>()
   state.adjacencies
     .map(({ from, to }) => ({
       from: state.containers[from],
@@ -22,33 +22,46 @@ export function tick(state: State) {
       if (
         from.type === 'source' &&
         from.inventory &&
-        from.inventory.count > 0
+        from.inventory.count > 0 &&
+        (!to.inventory || from.inventory.name === to.inventory?.name)
       ) {
-        const fromCountDifference = offsetByIndex.get(fromIndex) || 0 - 1
-        const toCountDifference = offsetByIndex.get(toIndex) || 0 + 1
-        offsetByIndex.set(fromIndex, fromCountDifference)
-        offsetByIndex.set(toIndex, toCountDifference)
+        overrides.set(fromIndex, {
+          count:
+            (overrides.get(fromIndex)?.count || from.inventory.count) - 1,
+          name: from.inventory.name,
+        })
+        overrides.set(toIndex, {
+          count:
+            (overrides.get(toIndex)?.count || to.inventory?.count || 0) +
+            1,
+          name: from.inventory.name,
+        })
       } else if (
         to.type === 'source' &&
         to.inventory &&
         to.inventory.count > 0
       ) {
-        const fromCountDifference = offsetByIndex.get(fromIndex) || 0 + 1
-        const toCountDifference = offsetByIndex.get(toIndex) || 0 - 1
-        offsetByIndex.set(fromIndex, fromCountDifference)
-        offsetByIndex.set(toIndex, toCountDifference)
+        overrides.set(toIndex, {
+          count: (overrides.get(toIndex)?.count || to.inventory.count) - 1,
+          name: to.inventory.name,
+        })
+        overrides.set(fromIndex, {
+          count:
+            (overrides.get(fromIndex)?.count ||
+              from.inventory?.count ||
+              0) + 1,
+          name: to.inventory.name,
+        })
       }
     })
   return {
     ...state,
     containers: state.containers.map(
       (container, index): ContainerState => {
-        const count =
-          (container.inventory?.count || 0) +
-          (offsetByIndex.get(index) || 0)
+        const inventory = overrides.get(index) || container.inventory
         return {
           ...container,
-          inventory: count !== 0 ? { count } : undefined,
+          inventory: inventory?.count !== 0 ? inventory : undefined,
         }
       },
     ),
@@ -65,6 +78,7 @@ export function insert(state: State, inventory: Inventory): State {
               ...container,
               inventory: {
                 count: (container.inventory?.count || 0) + inventory.count,
+                name: inventory.name,
               },
             }
           : container,
@@ -88,6 +102,7 @@ export interface ContainerState {
 
 export interface Inventory {
   count: number
+  name: 'iron rod' | 'iron gear'
 }
 
 type Action = { type: 'tick' } | { type: 'insert'; inventory: Inventory }
@@ -159,22 +174,41 @@ function Container({ dispatch, _key, container }: ContainerProps) {
       <div>
         {_key}
         {container.inventory?.count
-          ? `: ${container.inventory.count} iron rod`
+          ? `: ${container.inventory.count} ${container.inventory.name}`
           : ''}
       </div>
-      <button
-        onClick={() =>
-          dispatch({
-            type: 'insert',
-            inventory: { count: 32 },
-          })
-        }
+      <div
         style={{
           visibility: container.type === 'source' ? 'visible' : 'hidden',
         }}
       >
-        add 32 iron rod
-      </button>
+        <button
+          onClick={() =>
+            dispatch({
+              type: 'insert',
+              inventory: { count: 8, name: 'iron rod' },
+            })
+          }
+          disabled={
+            container.inventory && container.inventory.name !== 'iron rod'
+          }
+        >
+          add 8 iron rod
+        </button>
+        <button
+          onClick={() =>
+            dispatch({
+              type: 'insert',
+              inventory: { count: 8, name: 'iron gear' },
+            })
+          }
+          disabled={
+            container.inventory && container.inventory.name !== 'iron gear'
+          }
+        >
+          add 8 iron gear
+        </button>
+      </div>
     </div>
   )
 }

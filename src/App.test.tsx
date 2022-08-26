@@ -10,7 +10,7 @@ describe('tick', () => {
   test('no transfer to non-adjacent', () => {
     const adjacencies = new Array<Adjacency>()
     const containers: ContainerState[] = [
-      { type: 'source', inventory: { count: 16 } },
+      { type: 'source', inventory: { count: 16, name: 'iron rod' } },
       { type: 'sink', inventory: undefined },
     ]
     expect(
@@ -30,7 +30,7 @@ describe('tick', () => {
         tick({
           adjacencies,
           containers: [
-            { type: 'source', inventory: { count: 1 } },
+            { type: 'source', inventory: { count: 1, name: 'iron rod' } },
             { type: 'sink' },
           ],
         }),
@@ -39,7 +39,7 @@ describe('tick', () => {
       adjacencies,
       containers: [
         { type: 'source', inventory: undefined },
-        { type: 'sink', inventory: { count: 1 } },
+        { type: 'sink', inventory: { count: 1, name: 'iron rod' } },
       ],
     })
   })
@@ -50,7 +50,10 @@ describe('tick', () => {
         tick({
           adjacencies,
           containers: [
-            { type: 'source', inventory: { count: 16 } },
+            {
+              type: 'source',
+              inventory: { count: 16, name: 'iron gear' },
+            },
             { type: 'sink' },
           ],
         }),
@@ -58,8 +61,8 @@ describe('tick', () => {
     ).toStrictEqual<State>({
       adjacencies,
       containers: [
-        { type: 'source', inventory: { count: 14 } },
-        { type: 'sink', inventory: { count: 2 } },
+        { type: 'source', inventory: { count: 14, name: 'iron gear' } },
+        { type: 'sink', inventory: { count: 2, name: 'iron gear' } },
       ],
     })
   })
@@ -70,7 +73,10 @@ describe('tick', () => {
         tick({
           adjacencies,
           containers: [
-            { type: 'source', inventory: { count: 16 } },
+            {
+              type: 'source',
+              inventory: { count: 16, name: 'iron gear' },
+            },
             { type: 'sink' },
           ],
         }),
@@ -78,26 +84,52 @@ describe('tick', () => {
     ).toStrictEqual<State>({
       adjacencies,
       containers: [
-        { type: 'source', inventory: { count: 14 } },
-        { type: 'sink', inventory: { count: 2 } },
+        { type: 'source', inventory: { count: 14, name: 'iron gear' } },
+        { type: 'sink', inventory: { count: 2, name: 'iron gear' } },
+      ],
+    })
+  })
+  test('backpressure upon mixed types', () => {
+    const adjacencies = [{ from: 0, to: 1 }]
+    expect(
+      tick({
+        adjacencies,
+        containers: [
+          {
+            type: 'source',
+            inventory: { count: 16, name: 'iron gear' },
+          },
+          { type: 'sink', inventory: { count: 16, name: 'iron rod' } },
+        ],
+      }),
+    ).toStrictEqual<State>({
+      adjacencies,
+      containers: [
+        {
+          type: 'source',
+          inventory: { count: 16, name: 'iron gear' },
+        },
+        { type: 'sink', inventory: { count: 16, name: 'iron rod' } },
       ],
     })
   })
 })
 
 describe('insert', () => {
-  test('add 32 iron rod', () => {
+  test('add 32 iron gear', () => {
     expect(
       insert(
         {
           adjacencies: [],
           containers: [{ type: 'source' }],
         },
-        { count: 32 },
+        { count: 32, name: 'iron gear' },
       ),
     ).toStrictEqual({
       adjacencies: [],
-      containers: [{ type: 'source', inventory: { count: 32 } }],
+      containers: [
+        { type: 'source', inventory: { count: 32, name: 'iron gear' } },
+      ],
     })
   })
 })
