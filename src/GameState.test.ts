@@ -30,30 +30,77 @@ describe('tick', () => {
       containers,
     })
   })
-  test('no transfer once empty', () => {
+  describe('sink and source', () => {
     const adjacencies = [{ from: 0, to: 1 }]
-    expect(
-      tick(
-        tick({
-          adjacencies,
-          containers: [
-            { type: 'source', inventory: { count: 1, name: 'iron rod' } },
-            { type: 'sink' },
-          ],
-        }),
-      ),
-    ).toStrictEqual<GameState>({
-      adjacencies,
-      containers: [
-        { type: 'source', inventory: undefined },
-        { type: 'sink', inventory: { count: 1, name: 'iron rod' } },
-      ],
+    test('no transfer once empty', () => {
+      expect(
+        tick(
+          tick({
+            adjacencies,
+            containers: [
+              {
+                type: 'source',
+                inventory: { count: 1, name: 'iron rod' },
+              },
+              { type: 'sink' },
+            ],
+          }),
+        ),
+      ).toStrictEqual<GameState>({
+        adjacencies,
+        containers: [
+          { type: 'source', inventory: undefined },
+          { type: 'sink', inventory: { count: 1, name: 'iron rod' } },
+        ],
+      })
     })
-  })
-  test('transfer forward two to adjacent', () => {
-    const adjacencies = [{ from: 0, to: 1 }]
-    expect(
-      tick(
+    test('transfer forward two to adjacent', () => {
+      expect(
+        tick(
+          tick({
+            adjacencies,
+            containers: [
+              {
+                type: 'source',
+                inventory: { count: 16, name: 'iron gear' },
+              },
+              { type: 'sink' },
+            ],
+          }),
+        ),
+      ).toStrictEqual<GameState>({
+        adjacencies,
+        containers: [
+          { type: 'source', inventory: { count: 14, name: 'iron gear' } },
+          { type: 'sink', inventory: { count: 2, name: 'iron gear' } },
+        ],
+      })
+    })
+    test('transfer backward two to adjacent', () => {
+      expect(
+        tick(
+          tick({
+            adjacencies,
+            containers: [
+              {
+                type: 'source',
+                inventory: { count: 16, name: 'iron gear' },
+              },
+              { type: 'sink' },
+            ],
+          }),
+        ),
+      ).toStrictEqual<GameState>({
+        adjacencies,
+        containers: [
+          { type: 'source', inventory: { count: 14, name: 'iron gear' } },
+          { type: 'sink', inventory: { count: 2, name: 'iron gear' } },
+        ],
+      })
+    })
+    test('backpressure upon mixed types', () => {
+      const adjacencies = [{ from: 0, to: 1 }]
+      expect(
         tick({
           adjacencies,
           containers: [
@@ -61,45 +108,10 @@ describe('tick', () => {
               type: 'source',
               inventory: { count: 16, name: 'iron gear' },
             },
-            { type: 'sink' },
+            { type: 'sink', inventory: { count: 16, name: 'iron rod' } },
           ],
         }),
-      ),
-    ).toStrictEqual<GameState>({
-      adjacencies,
-      containers: [
-        { type: 'source', inventory: { count: 14, name: 'iron gear' } },
-        { type: 'sink', inventory: { count: 2, name: 'iron gear' } },
-      ],
-    })
-  })
-  test('transfer backward two to adjacent', () => {
-    const adjacencies = [{ from: 1, to: 0 }]
-    expect(
-      tick(
-        tick({
-          adjacencies,
-          containers: [
-            {
-              type: 'source',
-              inventory: { count: 16, name: 'iron gear' },
-            },
-            { type: 'sink' },
-          ],
-        }),
-      ),
-    ).toStrictEqual<GameState>({
-      adjacencies,
-      containers: [
-        { type: 'source', inventory: { count: 14, name: 'iron gear' } },
-        { type: 'sink', inventory: { count: 2, name: 'iron gear' } },
-      ],
-    })
-  })
-  test('backpressure upon mixed types', () => {
-    const adjacencies = [{ from: 0, to: 1 }]
-    expect(
-      tick({
+      ).toStrictEqual<GameState>({
         adjacencies,
         containers: [
           {
@@ -108,16 +120,7 @@ describe('tick', () => {
           },
           { type: 'sink', inventory: { count: 16, name: 'iron rod' } },
         ],
-      }),
-    ).toStrictEqual<GameState>({
-      adjacencies,
-      containers: [
-        {
-          type: 'source',
-          inventory: { count: 16, name: 'iron gear' },
-        },
-        { type: 'sink', inventory: { count: 16, name: 'iron rod' } },
-      ],
+      })
     })
   })
 })
