@@ -1,4 +1,4 @@
-import { Adjacency, ContainerState, State, tick } from './App'
+import { Adjacency, ContainerState, insert, State, tick } from './App'
 
 describe('tick', () => {
   test('do nothing', () => {
@@ -81,6 +81,23 @@ describe('tick', () => {
         { type: 'source', inventory: { count: 14 } },
         { type: 'sink', inventory: { count: 2 } },
       ],
+    })
+  })
+})
+
+describe('insert', () => {
+  test('add 32 iron rod', () => {
+    expect(
+      insert(
+        {
+          adjacencies: [],
+          containers: [{ type: 'source' }],
+        },
+        { count: 32 },
+      ),
+    ).toStrictEqual({
+      adjacencies: [],
+      containers: [{ type: 'source', inventory: { count: 32 } }],
     })
   })
 })

@@ -5,89 +5,8 @@ function reducer(state: State, action: Action): State {
     case 'tick':
       return tick(state)
     case 'insert':
-      return {
-        ...state,
-        containers: state.containers.map(
-          (container): ContainerState =>
-            container.type === 'source'
-              ? {
-                  ...container,
-                  inventory: {
-                    count: (container.inventory?.count || 0) + 16,
-                  },
-                }
-              : container,
-        ),
-      }
+      return insert(state, action.inventory)
   }
-}
-
-export interface State {
-  adjacencies: Adjacency[]
-  containers: ContainerState[]
-}
-
-export interface Adjacency {
-  from: number
-  to: number
-}
-
-export interface ContainerState {
-  inventory?: Inventory
-  type: 'source' | 'sink'
-}
-
-export interface Inventory {
-  count: number
-}
-
-interface Action {
-  type: 'tick' | 'insert'
-}
-
-const defaultState: State = {
-  adjacencies: [{ from: 0, to: 1 }],
-  containers: [
-    {
-      type: 'source',
-    },
-    {
-      type: 'sink',
-    },
-  ],
-}
-
-export default function App() {
-  const [state, dispatch] = useReducer(reducer, defaultState)
-  const frame = useFrame()
-  useEffect(() => dispatch({ type: 'tick' }), [frame])
-  return (
-    <>
-      <div>adjacencies: {JSON.stringify(state.adjacencies)}</div>
-      {state.containers.map((container, key) => (
-        <Container
-          dispatch={dispatch}
-          key={key.toString()}
-          _key={key.toString()}
-          container={container}
-        />
-      ))}
-    </>
-  )
-}
-
-function useFrame() {
-  const [frame, setFrame] = useState(0)
-  useEffect(() => {
-    let timeout: NodeJS.Timeout
-    async function tick() {
-      setFrame((tick) => tick + 1)
-      timeout = setTimeout(tick, 1000 / 20)
-    }
-    tick()
-    return () => clearTimeout(timeout)
-  }, [])
-  return frame
 }
 
 export function tick(state: State) {
@@ -136,8 +55,90 @@ export function tick(state: State) {
   }
 }
 
+export function insert(state: State, inventory: Inventory): State {
+  return {
+    ...state,
+    containers: state.containers.map(
+      (container): ContainerState =>
+        container.type === 'source'
+          ? {
+              ...container,
+              inventory: {
+                count: (container.inventory?.count || 0) + inventory.count,
+              },
+            }
+          : container,
+    ),
+  }
+}
+export interface State {
+  adjacencies: Adjacency[]
+  containers: ContainerState[]
+}
+
+export interface Adjacency {
+  from: number
+  to: number
+}
+
+export interface ContainerState {
+  inventory?: Inventory
+  type: 'source' | 'sink'
+}
+
+export interface Inventory {
+  count: number
+}
+
+type Action = { type: 'tick' } | { type: 'insert'; inventory: Inventory }
+
+const defaultState: State = {
+  adjacencies: [{ from: 0, to: 1 }],
+  containers: [
+    {
+      type: 'source',
+    },
+    {
+      type: 'sink',
+    },
+  ],
+}
+
+export default function App() {
+  const [state, dispatch] = useReducer(reducer, defaultState)
+  const frame = useFrame()
+  useEffect(() => dispatch({ type: 'tick' }), [frame])
+  return (
+    <>
+      <div>adjacencies: {JSON.stringify(state.adjacencies)}</div>
+      {state.containers.map((container, key) => (
+        <Container
+          dispatch={dispatch}
+          key={key.toString()}
+          _key={key.toString()}
+          container={container}
+        />
+      ))}
+    </>
+  )
+}
+
+function useFrame() {
+  const [frame, setFrame] = useState(0)
+  useEffect(() => {
+    let timeout: NodeJS.Timeout
+    async function tick() {
+      setFrame((tick) => tick + 1)
+      timeout = setTimeout(tick, 1000 / 20)
+    }
+    tick()
+    return () => clearTimeout(timeout)
+  }, [])
+  return frame
+}
+
 interface ContainerProps {
-  dispatch: React.Dispatch<any>
+  dispatch: React.Dispatch<Action>
   _key: string
   container: ContainerState
 }
@@ -162,12 +163,17 @@ function Container({ dispatch, _key, container }: ContainerProps) {
           : ''}
       </div>
       <button
-        onClick={() => dispatch({ type: 'insert' })}
+        onClick={() =>
+          dispatch({
+            type: 'insert',
+            inventory: { count: 32 },
+          })
+        }
         style={{
           visibility: container.type === 'source' ? 'visible' : 'hidden',
         }}
       >
-        add 16 iron rod
+        add 32 iron rod
       </button>
     </div>
   )
