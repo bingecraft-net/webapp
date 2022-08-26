@@ -2,10 +2,10 @@ import {
   Adjacency,
   ContainerState,
   dump,
+  GameState,
   insert,
-  State,
   tick,
-} from './App'
+} from './GameState'
 
 describe('tick', () => {
   test('do nothing', () => {
@@ -25,7 +25,7 @@ describe('tick', () => {
         adjacencies,
         containers,
       }),
-    ).toStrictEqual<State>({
+    ).toStrictEqual<GameState>({
       adjacencies,
       containers,
     })
@@ -42,7 +42,7 @@ describe('tick', () => {
           ],
         }),
       ),
-    ).toStrictEqual<State>({
+    ).toStrictEqual<GameState>({
       adjacencies,
       containers: [
         { type: 'source', inventory: undefined },
@@ -65,7 +65,7 @@ describe('tick', () => {
           ],
         }),
       ),
-    ).toStrictEqual<State>({
+    ).toStrictEqual<GameState>({
       adjacencies,
       containers: [
         { type: 'source', inventory: { count: 14, name: 'iron gear' } },
@@ -88,7 +88,7 @@ describe('tick', () => {
           ],
         }),
       ),
-    ).toStrictEqual<State>({
+    ).toStrictEqual<GameState>({
       adjacencies,
       containers: [
         { type: 'source', inventory: { count: 14, name: 'iron gear' } },
@@ -109,7 +109,7 @@ describe('tick', () => {
           { type: 'sink', inventory: { count: 16, name: 'iron rod' } },
         ],
       }),
-    ).toStrictEqual<State>({
+    ).toStrictEqual<GameState>({
       adjacencies,
       containers: [
         {
