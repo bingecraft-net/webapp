@@ -6,6 +6,8 @@ export function reducer(state: GameState, action: Action): GameState {
       return insert(state, action)
     case 'dump':
       return dump(state, action.key)
+    case 'jump':
+      return jump(state, action)
   }
 }
 
@@ -96,6 +98,47 @@ export function dump(state: GameState, key: number): GameState {
   }
 }
 
+export function jump(
+  state: GameState,
+  { key }: { key: number },
+): GameState {
+  const positions = state.containers.reduce(
+    (acc, cur) => acc.concat(cur.position.x),
+    new Array<number>(),
+  )
+  let next = positions[0]
+  while (positions.some((position) => position === next)) {
+    next = Math.floor(Math.random() * 8)
+  }
+  return move(state, { key, position: { x: next } })
+}
+
+export function move(
+  state: GameState,
+  { key, position }: { key: number; position: { x: number } },
+) {
+  const adjacencies: Adjacency[] = state.adjacencies.filter(
+    ({ from, to }) => from !== key && to !== key,
+  )
+  const containers = state.containers.map(
+    (container, index): ContainerState => {
+      if (
+        key !== index &&
+        Math.abs(position.x - container.position.x) === 1
+      )
+        adjacencies.push({ from: index, to: key })
+      return {
+        ...container,
+        position: key !== index ? container.position : position,
+      }
+    },
+  )
+  return {
+    adjacencies,
+    containers,
+  }
+}
+
 export interface GameState {
   adjacencies: Adjacency[]
   containers: ContainerState[]
@@ -120,4 +163,5 @@ export interface Slot {
 export type Action =
   | { type: 'tick' }
   | { key: number; type: 'dump' }
+  | { key: number; type: 'jump' }
   | { key: number; slot: Slot; type: 'insert' }

@@ -134,6 +134,9 @@ function Container({ dispatch, _key, container }: ContainerProps) {
             dump
           </button>
         )}
+        <button onClick={() => dispatch({ key: _key, type: 'jump' })}>
+          jump
+        </button>
       </div>
     </div>
   )
