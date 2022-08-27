@@ -176,6 +176,40 @@ describe('tick', () => {
         ],
       })
     })
+    test('no transfer between adjacent sources', () => {
+      const adjacencies = [{ from: 0, to: 1 }]
+      expect(
+        tick({
+          adjacencies,
+          containers: [
+            {
+              position: { x: 0 },
+              slots: [{ count: 16, name: 'iron gear' }],
+              type: 'source',
+            },
+            {
+              position: { x: 1 },
+              slots: [],
+              type: 'source',
+            },
+          ],
+        }),
+      ).toStrictEqual<GameState>({
+        adjacencies,
+        containers: [
+          {
+            position: { x: 0 },
+            slots: [{ count: 16, name: 'iron gear' }],
+            type: 'source',
+          },
+          {
+            position: { x: 1 },
+            slots: [],
+            type: 'source',
+          },
+        ],
+      })
+    })
   })
 })
 

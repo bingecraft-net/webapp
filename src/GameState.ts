@@ -48,6 +48,7 @@ function tryPull([overrides, a, aIndex, b, bIndex]: tryPullProps) {
   const other = b.slots[0]
   if (
     a.type === 'source' &&
+    b.type === 'sink' &&
     slot &&
     slot.count > 0 &&
     (!other || slot.name === other?.name)
