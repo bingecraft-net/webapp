@@ -104,6 +104,7 @@ export interface Adjacency {
 }
 
 export interface ContainerState {
+  position: { x: number }
   slots: [] | [Slot]
   type: 'source' | 'sink'
 }

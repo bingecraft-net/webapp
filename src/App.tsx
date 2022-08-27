@@ -2,13 +2,29 @@ import { useEffect, useReducer, useState } from 'react'
 import { Action, ContainerState, GameState, reducer } from './GameState'
 
 const defaultState: GameState = {
-  adjacencies: [{ from: 0, to: 1 }],
+  adjacencies: [
+    { from: 0, to: 1 },
+    { from: 2, to: 1 },
+    { from: 2, to: 3 },
+  ],
   containers: [
     {
+      position: { x: 0 },
       slots: [],
       type: 'source',
     },
     {
+      position: { x: 1 },
+      slots: [],
+      type: 'sink',
+    },
+    {
+      position: { x: 2 },
+      slots: [],
+      type: 'source',
+    },
+    {
+      position: { x: 3 },
       slots: [],
       type: 'sink',
     },
@@ -57,55 +73,64 @@ function Container({ dispatch, _key, container }: ContainerProps) {
   return (
     <div
       style={{
-        width: '8rem',
-        height: '8rem',
-        backgroundColor:
-          container.type === 'source'
-            ? `hsl(20,100%,75%)`
-            : `hsl(40,100%,75%)`,
-        padding: '1rem',
-        boxSizing: 'border-box',
+        position: 'absolute',
+        left: `calc(8rem*${container.position.x})`,
       }}
     >
-      <div>
-        {_key}
-        {container.slots[0]?.count
-          ? `: ${container.slots[0].count} ${container.slots[0].name}`
-          : ''}
+      <div
+        style={{
+          width: '8rem',
+          height: '8rem',
+          backgroundColor:
+            container.type === 'source'
+              ? `hsl(20,100%,75%)`
+              : `hsl(40,100%,75%)`,
+          padding: '1rem',
+          boxSizing: 'border-box',
+        }}
+      >
+        <div>
+          {_key}
+          {container.slots[0]?.count
+            ? `: ${container.slots[0].count} ${container.slots[0].name}`
+            : ''}
+        </div>
+        {container.type === 'source' && (
+          <>
+            <button
+              onClick={() =>
+                dispatch({
+                  type: 'insert',
+                  inventory: { count: 8, name: 'iron rod' },
+                })
+              }
+              disabled={
+                container.slots[0] &&
+                container.slots[0].name !== 'iron rod'
+              }
+            >
+              add 8 iron rod
+            </button>
+            <button
+              onClick={() =>
+                dispatch({
+                  type: 'insert',
+                  inventory: { count: 8, name: 'iron gear' },
+                })
+              }
+              disabled={
+                container.slots[0] &&
+                container.slots[0].name !== 'iron gear'
+              }
+            >
+              add 8 iron gear
+            </button>
+          </>
+        )}
+        {container.type === 'sink' && (
+          <button onClick={() => dispatch({ type: 'dump' })}>dump</button>
+        )}
       </div>
-      {container.type === 'source' && (
-        <>
-          <button
-            onClick={() =>
-              dispatch({
-                type: 'insert',
-                inventory: { count: 8, name: 'iron rod' },
-              })
-            }
-            disabled={
-              container.slots[0] && container.slots[0].name !== 'iron rod'
-            }
-          >
-            add 8 iron rod
-          </button>
-          <button
-            onClick={() =>
-              dispatch({
-                type: 'insert',
-                inventory: { count: 8, name: 'iron gear' },
-              })
-            }
-            disabled={
-              container.slots[0] && container.slots[0].name !== 'iron gear'
-            }
-          >
-            add 8 iron gear
-          </button>
-        </>
-      )}
-      {container.type === 'sink' && (
-        <button onClick={() => dispatch({ type: 'dump' })}>dump</button>
-      )}
     </div>
   )
 }
