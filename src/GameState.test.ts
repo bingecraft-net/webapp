@@ -190,9 +190,14 @@ describe('insert', () => {
               slots: [],
               type: 'source',
             },
+            {
+              position: { x: 1 },
+              slots: [],
+              type: 'source',
+            },
           ],
         },
-        { count: 32, name: 'iron gear' },
+        { key: 0, slot: { count: 32, name: 'iron gear' } },
       ),
     ).toStrictEqual<GameState>({
       adjacencies: [],
@@ -202,6 +207,11 @@ describe('insert', () => {
           slots: [{ count: 32, name: 'iron gear' }],
           type: 'source',
         },
+        {
+          position: { x: 1 },
+          slots: [],
+          type: 'source',
+        },
       ],
     })
   })
@@ -209,32 +219,45 @@ describe('insert', () => {
 
 test('dump', () => {
   expect(
-    dump({
-      adjacencies: [],
-      containers: [
-        {
-          position: { x: 0 },
-          slots: [{ count: 16, name: 'iron rod' }],
-          type: 'source',
-        },
-        {
-          position: { x: 1 },
-          slots: [{ count: 32, name: 'iron gear' }],
-          type: 'sink',
-        },
-      ],
-    }),
+    dump(
+      {
+        adjacencies: [],
+        containers: [
+          {
+            position: { x: 0 },
+            slots: [{ count: 16, name: 'iron rod' }],
+            type: 'source',
+          },
+          {
+            position: { x: 1 },
+            slots: [{ count: 32, name: 'iron gear' }],
+            type: 'sink',
+          },
+          {
+            position: { x: 2 },
+            slots: [{ count: 32, name: 'iron gear' }],
+            type: 'sink',
+          },
+        ],
+      },
+      0,
+    ),
   ).toStrictEqual<GameState>({
     adjacencies: [],
     containers: [
       {
         position: { x: 0 },
-        slots: [{ count: 16, name: 'iron rod' }],
+        slots: [],
         type: 'source',
       },
       {
         position: { x: 1 },
-        slots: [],
+        slots: [{ count: 32, name: 'iron gear' }],
+        type: 'sink',
+      },
+      {
+        position: { x: 2 },
+        slots: [{ count: 32, name: 'iron gear' }],
         type: 'sink',
       },
     ],

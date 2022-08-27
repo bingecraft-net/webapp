@@ -42,7 +42,7 @@ export default function App() {
         <Container
           dispatch={dispatch}
           key={key.toString()}
-          _key={key.toString()}
+          _key={key}
           container={container}
         />
       ))}
@@ -66,7 +66,7 @@ function useFrame() {
 
 interface ContainerProps {
   dispatch: React.Dispatch<Action>
-  _key: string
+  _key: number
   container: ContainerState
 }
 function Container({ dispatch, _key, container }: ContainerProps) {
@@ -100,8 +100,9 @@ function Container({ dispatch, _key, container }: ContainerProps) {
             <button
               onClick={() =>
                 dispatch({
+                  key: _key,
+                  slot: { count: 8, name: 'iron rod' },
                   type: 'insert',
-                  inventory: { count: 8, name: 'iron rod' },
                 })
               }
               disabled={
@@ -114,8 +115,9 @@ function Container({ dispatch, _key, container }: ContainerProps) {
             <button
               onClick={() =>
                 dispatch({
+                  key: _key,
+                  slot: { count: 8, name: 'iron gear' },
                   type: 'insert',
-                  inventory: { count: 8, name: 'iron gear' },
                 })
               }
               disabled={
@@ -128,7 +130,9 @@ function Container({ dispatch, _key, container }: ContainerProps) {
           </>
         )}
         {container.type === 'sink' && (
-          <button onClick={() => dispatch({ type: 'dump' })}>dump</button>
+          <button onClick={() => dispatch({ key: _key, type: 'dump' })}>
+            dump
+          </button>
         )}
       </div>
     </div>

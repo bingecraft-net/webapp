@@ -3,9 +3,9 @@ export function reducer(state: GameState, action: Action): GameState {
     case 'tick':
       return tick(state)
     case 'insert':
-      return insert(state, action.inventory)
+      return insert(state, action)
     case 'dump':
-      return dump(state)
+      return dump(state, action.key)
   }
 }
 
@@ -61,12 +61,15 @@ function tryPull([overrides, a, aIndex, b, bIndex]: tryPullProps) {
   }
 }
 
-export function insert(state: GameState, slot: Slot): GameState {
+export function insert(
+  state: GameState,
+  { key, slot }: { key: number; slot: Slot },
+): GameState {
   return {
     ...state,
     containers: state.containers.map(
-      (container): ContainerState =>
-        container.type === 'source'
+      (container, index): ContainerState =>
+        index === key
           ? {
               ...container,
               slots: [
@@ -81,13 +84,13 @@ export function insert(state: GameState, slot: Slot): GameState {
   }
 }
 
-export function dump(state: GameState): GameState {
+export function dump(state: GameState, key: number): GameState {
   return {
     ...state,
     containers: state.containers.map(
-      ({ slots, ...container }): ContainerState => ({
+      ({ slots, ...container }, index): ContainerState => ({
         ...container,
-        slots: container.type === 'sink' ? [] : slots,
+        slots: key === index ? [] : slots,
       }),
     ),
   }
@@ -115,5 +118,6 @@ export interface Slot {
 }
 
 export type Action =
-  | { type: 'tick' | 'dump' }
-  | { type: 'insert'; inventory: Slot }
+  | { type: 'tick' }
+  | { key: number; type: 'dump' }
+  | { key: number; slot: Slot; type: 'insert' }
