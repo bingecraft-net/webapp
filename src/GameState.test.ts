@@ -17,8 +17,8 @@ describe('tick', () => {
   test('no transfer to non-adjacent', () => {
     const adjacencies = new Array<Adjacency>()
     const containers: ContainerState[] = [
-      { type: 'source', inventory: { count: 16, name: 'iron rod' } },
-      { type: 'sink', inventory: undefined },
+      { slots: [{ count: 16, name: 'iron rod' }], type: 'source' },
+      { slots: [], type: 'sink' },
     ]
     expect(
       tick({
@@ -39,18 +39,18 @@ describe('tick', () => {
             adjacencies,
             containers: [
               {
+                slots: [{ count: 1, name: 'iron rod' }],
                 type: 'source',
-                inventory: { count: 1, name: 'iron rod' },
               },
-              { type: 'sink' },
+              { slots: [], type: 'sink' },
             ],
           }),
         ),
       ).toStrictEqual<GameState>({
         adjacencies,
         containers: [
-          { type: 'source', inventory: undefined },
-          { type: 'sink', inventory: { count: 1, name: 'iron rod' } },
+          { slots: [], type: 'source' },
+          { slots: [{ count: 1, name: 'iron rod' }], type: 'sink' },
         ],
       })
     })
@@ -61,18 +61,18 @@ describe('tick', () => {
             adjacencies,
             containers: [
               {
+                slots: [{ count: 16, name: 'iron gear' }],
                 type: 'source',
-                inventory: { count: 16, name: 'iron gear' },
               },
-              { type: 'sink' },
+              { slots: [], type: 'sink' },
             ],
           }),
         ),
       ).toStrictEqual<GameState>({
         adjacencies,
         containers: [
-          { type: 'source', inventory: { count: 14, name: 'iron gear' } },
-          { type: 'sink', inventory: { count: 2, name: 'iron gear' } },
+          { slots: [{ count: 14, name: 'iron gear' }], type: 'source' },
+          { slots: [{ count: 2, name: 'iron gear' }], type: 'sink' },
         ],
       })
     })
@@ -83,18 +83,18 @@ describe('tick', () => {
             adjacencies,
             containers: [
               {
+                slots: [{ count: 16, name: 'iron gear' }],
                 type: 'source',
-                inventory: { count: 16, name: 'iron gear' },
               },
-              { type: 'sink' },
+              { slots: [], type: 'sink' },
             ],
           }),
         ),
       ).toStrictEqual<GameState>({
         adjacencies,
         containers: [
-          { type: 'source', inventory: { count: 14, name: 'iron gear' } },
-          { type: 'sink', inventory: { count: 2, name: 'iron gear' } },
+          { slots: [{ count: 14, name: 'iron gear' }], type: 'source' },
+          { slots: [{ count: 2, name: 'iron gear' }], type: 'sink' },
         ],
       })
     })
@@ -105,20 +105,20 @@ describe('tick', () => {
           adjacencies,
           containers: [
             {
+              slots: [{ count: 16, name: 'iron gear' }],
               type: 'source',
-              inventory: { count: 16, name: 'iron gear' },
             },
-            { type: 'sink', inventory: { count: 16, name: 'iron rod' } },
+            { slots: [{ count: 16, name: 'iron rod' }], type: 'sink' },
           ],
         }),
       ).toStrictEqual<GameState>({
         adjacencies,
         containers: [
           {
+            slots: [{ count: 16, name: 'iron gear' }],
             type: 'source',
-            inventory: { count: 16, name: 'iron gear' },
           },
-          { type: 'sink', inventory: { count: 16, name: 'iron rod' } },
+          { slots: [{ count: 16, name: 'iron rod' }], type: 'sink' },
         ],
       })
     })
@@ -131,14 +131,14 @@ describe('insert', () => {
       insert(
         {
           adjacencies: [],
-          containers: [{ type: 'source' }],
+          containers: [{ slots: [], type: 'source' }],
         },
         { count: 32, name: 'iron gear' },
       ),
-    ).toStrictEqual({
+    ).toStrictEqual<GameState>({
       adjacencies: [],
       containers: [
-        { type: 'source', inventory: { count: 32, name: 'iron gear' } },
+        { slots: [{ count: 32, name: 'iron gear' }], type: 'source' },
       ],
     })
   })
@@ -149,15 +149,15 @@ test('dump', () => {
     dump({
       adjacencies: [],
       containers: [
-        { type: 'source', inventory: { count: 16, name: 'iron rod' } },
-        { type: 'sink', inventory: { count: 32, name: 'iron gear' } },
+        { slots: [{ count: 16, name: 'iron rod' }], type: 'source' },
+        { slots: [{ count: 32, name: 'iron gear' }], type: 'sink' },
       ],
     }),
-  ).toStrictEqual({
+  ).toStrictEqual<GameState>({
     adjacencies: [],
     containers: [
-      { type: 'source', inventory: { count: 16, name: 'iron rod' } },
-      { type: 'sink' },
+      { slots: [{ count: 16, name: 'iron rod' }], type: 'source' },
+      { slots: [], type: 'sink' },
     ],
   })
 })

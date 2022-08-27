@@ -5,9 +5,11 @@ const defaultState: GameState = {
   adjacencies: [{ from: 0, to: 1 }],
   containers: [
     {
+      slots: [],
       type: 'source',
     },
     {
+      slots: [],
       type: 'sink',
     },
   ],
@@ -67,8 +69,8 @@ function Container({ dispatch, _key, container }: ContainerProps) {
     >
       <div>
         {_key}
-        {container.inventory?.count
-          ? `: ${container.inventory.count} ${container.inventory.name}`
+        {container.slots[0]?.count
+          ? `: ${container.slots[0].count} ${container.slots[0].name}`
           : ''}
       </div>
       {container.type === 'source' && (
@@ -81,8 +83,7 @@ function Container({ dispatch, _key, container }: ContainerProps) {
               })
             }
             disabled={
-              container.inventory &&
-              container.inventory.name !== 'iron rod'
+              container.slots[0] && container.slots[0].name !== 'iron rod'
             }
           >
             add 8 iron rod
@@ -95,8 +96,7 @@ function Container({ dispatch, _key, container }: ContainerProps) {
               })
             }
             disabled={
-              container.inventory &&
-              container.inventory.name !== 'iron gear'
+              container.slots[0] && container.slots[0].name !== 'iron gear'
             }
           >
             add 8 iron gear

@@ -18,16 +18,16 @@ export function tick(state: GameState) {
       tryPull([overrides, b, bi, a, ai])
       return overrides
     },
-    new Map<number, Inventory>(),
+    new Map<number, Slot>(),
   )
   return {
     ...state,
     containers: state.containers.map(
       (container, index): ContainerState => {
-        const inventory = overrides.get(index) || container.inventory
+        const slot = overrides.get(index) || container.slots[0]
         return {
           ...container,
-          inventory: inventory?.count !== 0 ? inventory : undefined,
+          slots: slot !== undefined && slot.count !== 0 ? [slot] : [],
         }
       },
     ),
@@ -35,31 +35,33 @@ export function tick(state: GameState) {
 }
 
 type tryPullProps = [
-  Map<number, Inventory>,
+  Map<number, Slot>,
   ContainerState,
   number,
   ContainerState,
   number,
 ]
 function tryPull([overrides, a, aIndex, b, bIndex]: tryPullProps) {
+  const slot = a.slots[0]
+  const other = b.slots[0]
   if (
     a.type === 'source' &&
-    a.inventory &&
-    a.inventory.count > 0 &&
-    (!b.inventory || a.inventory.name === b.inventory?.name)
+    slot &&
+    slot.count > 0 &&
+    (!other || slot.name === other?.name)
   ) {
     overrides.set(aIndex, {
-      count: (overrides.get(aIndex)?.count || a.inventory.count) - 1,
-      name: a.inventory.name,
+      count: (overrides.get(aIndex)?.count || slot.count) - 1,
+      name: slot.name,
     })
     overrides.set(bIndex, {
-      count: (overrides.get(bIndex)?.count || b.inventory?.count || 0) + 1,
-      name: a.inventory.name,
+      count: (overrides.get(bIndex)?.count || other?.count || 0) + 1,
+      name: slot.name,
     })
   }
 }
 
-export function insert(state: GameState, inventory: Inventory): GameState {
+export function insert(state: GameState, slot: Slot): GameState {
   return {
     ...state,
     containers: state.containers.map(
@@ -67,10 +69,12 @@ export function insert(state: GameState, inventory: Inventory): GameState {
         container.type === 'source'
           ? {
               ...container,
-              inventory: {
-                count: (container.inventory?.count || 0) + inventory.count,
-                name: inventory.name,
-              },
+              slots: [
+                {
+                  count: (container.slots[0]?.count || 0) + slot.count,
+                  name: slot.name,
+                },
+              ],
             }
           : container,
     ),
@@ -81,10 +85,10 @@ export function dump(state: GameState): GameState {
   return {
     ...state,
     containers: state.containers.map(
-      ({ inventory, ...container }): ContainerState =>
-        container.type === 'sink'
-          ? { ...container }
-          : { ...container, inventory },
+      ({ slots, ...container }): ContainerState => ({
+        ...container,
+        slots: container.type === 'sink' ? [] : slots,
+      }),
     ),
   }
 }
@@ -100,15 +104,15 @@ export interface Adjacency {
 }
 
 export interface ContainerState {
-  inventory?: Inventory
+  slots: [] | [Slot]
   type: 'source' | 'sink'
 }
 
-export interface Inventory {
+export interface Slot {
   count: number
   name: 'iron rod' | 'iron gear'
 }
 
 export type Action =
   | { type: 'tick' | 'dump' }
-  | { type: 'insert'; inventory: Inventory }
+  | { type: 'insert'; inventory: Slot }
