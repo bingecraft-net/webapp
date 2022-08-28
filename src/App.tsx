@@ -17,7 +17,7 @@ const defaultState: GameState = {
     {
       position: { x: 1 },
       slots: [],
-      type: 'sink',
+      type: 'assembler',
     },
     {
       position: { x: 2 },
@@ -27,7 +27,7 @@ const defaultState: GameState = {
     {
       position: { x: 3 },
       slots: [],
-      type: 'sink',
+      type: 'assembler',
     },
   ],
 }

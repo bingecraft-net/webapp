@@ -116,7 +116,7 @@ export default function Container({
           </button>
         </>
       )}
-      {container.type === 'sink' && (
+      {container.type === 'assembler' && (
         <button onClick={() => dispatch({ key: _key, type: 'dump' })}>
           dump
         </button>

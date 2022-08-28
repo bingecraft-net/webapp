@@ -23,7 +23,7 @@ describe('tick', () => {
         slots: [{ count: 16, name: 'iron rod' }],
         type: 'source',
       },
-      { position: { x: 1 }, slots: [], type: 'sink' },
+      { position: { x: 1 }, slots: [], type: 'assembler' },
     ]
     expect(
       tick({
@@ -35,7 +35,7 @@ describe('tick', () => {
       containers,
     })
   })
-  describe('sink and source', () => {
+  describe('assembler and source', () => {
     const adjacencies = [{ from: 0, to: 1 }]
     test('no transfer once empty', () => {
       expect(
@@ -51,7 +51,7 @@ describe('tick', () => {
               {
                 position: { x: 1 },
                 slots: [],
-                type: 'sink',
+                type: 'assembler',
               },
             ],
           }),
@@ -67,7 +67,7 @@ describe('tick', () => {
           {
             position: { x: 1 },
             slots: [{ count: 1, name: 'iron rod' }],
-            type: 'sink',
+            type: 'assembler',
           },
         ],
       })
@@ -86,7 +86,7 @@ describe('tick', () => {
               {
                 position: { x: 1 },
                 slots: [],
-                type: 'sink',
+                type: 'assembler',
               },
             ],
           }),
@@ -102,7 +102,7 @@ describe('tick', () => {
           {
             position: { x: 1 },
             slots: [{ count: 2, name: 'iron gear' }],
-            type: 'sink',
+            type: 'assembler',
           },
         ],
       })
@@ -121,7 +121,7 @@ describe('tick', () => {
               {
                 position: { x: 1 },
                 slots: [],
-                type: 'sink',
+                type: 'assembler',
               },
             ],
           }),
@@ -137,7 +137,7 @@ describe('tick', () => {
           {
             position: { x: 1 },
             slots: [{ count: 2, name: 'iron gear' }],
-            type: 'sink',
+            type: 'assembler',
           },
         ],
       })
@@ -156,7 +156,7 @@ describe('tick', () => {
             {
               position: { x: 1 },
               slots: [{ count: 16, name: 'iron rod' }],
-              type: 'sink',
+              type: 'assembler',
             },
           ],
         }),
@@ -171,7 +171,7 @@ describe('tick', () => {
           {
             position: { x: 1 },
             slots: [{ count: 16, name: 'iron rod' }],
-            type: 'sink',
+            type: 'assembler',
           },
         ],
       })
@@ -266,12 +266,12 @@ test('dump', () => {
           {
             position: { x: 1 },
             slots: [{ count: 32, name: 'iron gear' }],
-            type: 'sink',
+            type: 'assembler',
           },
           {
             position: { x: 2 },
             slots: [{ count: 32, name: 'iron gear' }],
-            type: 'sink',
+            type: 'assembler',
           },
         ],
       },
@@ -288,12 +288,12 @@ test('dump', () => {
       {
         position: { x: 1 },
         slots: [{ count: 32, name: 'iron gear' }],
-        type: 'sink',
+        type: 'assembler',
       },
       {
         position: { x: 2 },
         slots: [{ count: 32, name: 'iron gear' }],
-        type: 'sink',
+        type: 'assembler',
       },
     ],
   })
@@ -304,13 +304,13 @@ describe('move', () => {
     const actual = move(
       {
         adjacencies: [],
-        containers: [{ position: { x: 0 }, slots: [], type: 'sink' }],
+        containers: [{ position: { x: 0 }, slots: [], type: 'assembler' }],
       },
       { key: 0, position: { x: 1 } },
     )
     const expected: GameState = {
       adjacencies: [],
-      containers: [{ position: { x: 1 }, slots: [], type: 'sink' }],
+      containers: [{ position: { x: 1 }, slots: [], type: 'assembler' }],
     }
     expect(actual).toStrictEqual(expected)
   })
@@ -324,9 +324,9 @@ describe('move', () => {
         ],
         containers: [
           { position: { x: 0 }, slots: [], type: 'source' },
-          { position: { x: 1 }, slots: [], type: 'sink' },
+          { position: { x: 1 }, slots: [], type: 'assembler' },
           { position: { x: 2 }, slots: [], type: 'source' },
-          { position: { x: 3 }, slots: [], type: 'sink' },
+          { position: { x: 3 }, slots: [], type: 'assembler' },
         ],
       },
       { key: 1, position: { x: 5 } },
@@ -335,9 +335,9 @@ describe('move', () => {
       adjacencies: [{ from: 2, to: 3 }],
       containers: [
         { position: { x: 0 }, slots: [], type: 'source' },
-        { position: { x: 5 }, slots: [], type: 'sink' },
+        { position: { x: 5 }, slots: [], type: 'assembler' },
         { position: { x: 2 }, slots: [], type: 'source' },
-        { position: { x: 3 }, slots: [], type: 'sink' },
+        { position: { x: 3 }, slots: [], type: 'assembler' },
       ],
     }
     expect(actual).toStrictEqual(expected)
@@ -348,7 +348,7 @@ describe('move', () => {
         adjacencies: [],
         containers: [
           { position: { x: 0 }, slots: [], type: 'source' },
-          { position: { x: 2 }, slots: [], type: 'sink' },
+          { position: { x: 2 }, slots: [], type: 'assembler' },
         ],
       },
       { key: 1, position: { x: 1 } },
@@ -357,7 +357,7 @@ describe('move', () => {
       adjacencies: [{ from: 0, to: 1 }],
       containers: [
         { position: { x: 0 }, slots: [], type: 'source' },
-        { position: { x: 1 }, slots: [], type: 'sink' },
+        { position: { x: 1 }, slots: [], type: 'assembler' },
       ],
     }
     expect(actual).toStrictEqual(expected)
@@ -368,7 +368,7 @@ describe('move', () => {
         adjacencies: [],
         containers: [
           { position: { x: 0 }, slots: [], type: 'source' },
-          { position: { x: 2 }, slots: [], type: 'sink' },
+          { position: { x: 2 }, slots: [], type: 'assembler' },
         ],
       },
       { key: 0, position: { x: 1 } },
@@ -377,7 +377,7 @@ describe('move', () => {
       adjacencies: [{ from: 1, to: 0 }],
       containers: [
         { position: { x: 1 }, slots: [], type: 'source' },
-        { position: { x: 2 }, slots: [], type: 'sink' },
+        { position: { x: 2 }, slots: [], type: 'assembler' },
       ],
     }
     expect(actual).toStrictEqual(expected)

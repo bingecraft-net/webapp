@@ -48,7 +48,7 @@ function tryPull([overrides, a, aIndex, b, bIndex]: tryPullProps) {
   const other = b.slots[0]
   if (
     a.type === 'source' &&
-    b.type === 'sink' &&
+    b.type === 'assembler' &&
     slot &&
     slot.count > 0 &&
     (!other || slot.name === other?.name)
@@ -138,7 +138,7 @@ export interface Adjacency {
 export interface ContainerState {
   position: { x: number }
   slots: [] | [Slot]
-  type: 'source' | 'sink'
+  type: 'source' | 'assembler'
 }
 
 export interface Slot {
