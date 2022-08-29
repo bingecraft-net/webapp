@@ -23,27 +23,28 @@ describe('tick', () => {
     }
     expect(tick(state)).toStrictEqual(state)
   })
+
   describe('assembler and source', () => {
     const adjacencies = [{ from: 0, to: 1 }]
     test('no transfer once empty', () => {
-      expect(
-        tick(
-          tick({
-            adjacencies,
-            containers: [
-              {
-                slots: [{ count: 1, name: 'iron rod' }],
-                type: 'source',
-              },
-              {
-                slots: [],
-                type: 'assembler',
-              },
-            ],
-            positions: [],
-          }),
-        ),
-      ).toStrictEqual<GameState>({
+      const actual = tick(
+        tick({
+          adjacencies,
+          containers: [
+            {
+              slots: [{ count: 1, name: 'iron rod' }],
+              type: 'source',
+            },
+            {
+              slots: [],
+              type: 'assembler',
+            },
+          ],
+          positions: [],
+        }),
+      )
+
+      const expected: GameState = {
         adjacencies,
         containers: [
           {
@@ -56,77 +57,13 @@ describe('tick', () => {
           },
         ],
         positions: [],
-      })
+      }
+
+      expect(actual).toStrictEqual(expected)
     })
+
     test('transfer forward two to adjacent', () => {
-      expect(
-        tick(
-          tick({
-            adjacencies,
-            containers: [
-              {
-                slots: [{ count: 16, name: 'iron gear' }],
-                type: 'source',
-              },
-              {
-                slots: [],
-                type: 'assembler',
-              },
-            ],
-            positions: [],
-          }),
-        ),
-      ).toStrictEqual<GameState>({
-        adjacencies,
-        containers: [
-          {
-            slots: [{ count: 14, name: 'iron gear' }],
-            type: 'source',
-          },
-          {
-            slots: [{ count: 2, name: 'iron gear' }],
-            type: 'assembler',
-          },
-        ],
-        positions: [],
-      })
-    })
-    test('transfer backward two to adjacent', () => {
-      expect(
-        tick(
-          tick({
-            adjacencies,
-            containers: [
-              {
-                slots: [{ count: 16, name: 'iron gear' }],
-                type: 'source',
-              },
-              {
-                slots: [],
-                type: 'assembler',
-              },
-            ],
-            positions: [],
-          }),
-        ),
-      ).toStrictEqual<GameState>({
-        adjacencies,
-        containers: [
-          {
-            slots: [{ count: 14, name: 'iron gear' }],
-            type: 'source',
-          },
-          {
-            slots: [{ count: 2, name: 'iron gear' }],
-            type: 'assembler',
-          },
-        ],
-        positions: [],
-      })
-    })
-    test('backpressure upon mixed types', () => {
-      const adjacencies = [{ from: 0, to: 1 }]
-      expect(
+      const actual = tick(
         tick({
           adjacencies,
           containers: [
@@ -135,13 +72,70 @@ describe('tick', () => {
               type: 'source',
             },
             {
-              slots: [{ count: 16, name: 'iron rod' }],
+              slots: [],
               type: 'assembler',
             },
           ],
           positions: [],
         }),
-      ).toStrictEqual<GameState>({
+      )
+
+      const expected: GameState = {
+        adjacencies,
+        containers: [
+          {
+            slots: [{ count: 14, name: 'iron gear' }],
+            type: 'source',
+          },
+          {
+            slots: [{ count: 2, name: 'iron gear' }],
+            type: 'assembler',
+          },
+        ],
+        positions: [],
+      }
+
+      expect(actual).toStrictEqual(expected)
+    })
+
+    test('transfer backward two to adjacent', () => {
+      const actual = tick(
+        tick({
+          adjacencies,
+          containers: [
+            {
+              slots: [{ count: 16, name: 'iron gear' }],
+              type: 'source',
+            },
+            {
+              slots: [],
+              type: 'assembler',
+            },
+          ],
+          positions: [],
+        }),
+      )
+
+      const expected: GameState = {
+        adjacencies,
+        containers: [
+          {
+            slots: [{ count: 14, name: 'iron gear' }],
+            type: 'source',
+          },
+          {
+            slots: [{ count: 2, name: 'iron gear' }],
+            type: 'assembler',
+          },
+        ],
+        positions: [],
+      }
+
+      expect(actual).toStrictEqual(expected)
+    })
+    test('backpressure upon mixed types', () => {
+      const adjacencies = [{ from: 0, to: 1 }]
+      const actual = tick({
         adjacencies,
         containers: [
           {
@@ -155,25 +149,27 @@ describe('tick', () => {
         ],
         positions: [],
       })
+
+      const expected: GameState = {
+        adjacencies,
+        containers: [
+          {
+            slots: [{ count: 16, name: 'iron gear' }],
+            type: 'source',
+          },
+          {
+            slots: [{ count: 16, name: 'iron rod' }],
+            type: 'assembler',
+          },
+        ],
+        positions: [],
+      }
+
+      expect(actual).toStrictEqual(expected)
     })
     test('no transfer between adjacent sources', () => {
       const adjacencies = [{ from: 0, to: 1 }]
-      expect(
-        tick({
-          adjacencies,
-          containers: [
-            {
-              slots: [{ count: 16, name: 'iron gear' }],
-              type: 'source',
-            },
-            {
-              slots: [],
-              type: 'source',
-            },
-          ],
-          positions: [],
-        }),
-      ).toStrictEqual<GameState>({
+      const actual = tick({
         adjacencies,
         containers: [
           {
@@ -187,31 +183,48 @@ describe('tick', () => {
         ],
         positions: [],
       })
+
+      const expected: GameState = {
+        adjacencies,
+        containers: [
+          {
+            slots: [{ count: 16, name: 'iron gear' }],
+            type: 'source',
+          },
+          {
+            slots: [],
+            type: 'source',
+          },
+        ],
+        positions: [],
+      }
+
+      expect(actual).toStrictEqual(expected)
     })
   })
 })
 
 describe('insert', () => {
   test('add 32 iron gear', () => {
-    expect(
-      insert(
-        {
-          adjacencies: [],
-          containers: [
-            {
-              slots: [],
-              type: 'source',
-            },
-            {
-              slots: [],
-              type: 'source',
-            },
-          ],
-          positions: [],
-        },
-        { key: 0, slot: { count: 32, name: 'iron gear' } },
-      ),
-    ).toStrictEqual<GameState>({
+    const actual = insert(
+      {
+        adjacencies: [],
+        containers: [
+          {
+            slots: [],
+            type: 'source',
+          },
+          {
+            slots: [],
+            type: 'source',
+          },
+        ],
+        positions: [],
+      },
+      { key: 0, slot: { count: 32, name: 'iron gear' } },
+    )
+
+    const expected: GameState = {
       adjacencies: [],
       containers: [
         {
@@ -224,34 +237,36 @@ describe('insert', () => {
         },
       ],
       positions: [],
-    })
+    }
+
+    expect(actual).toStrictEqual(expected)
   })
 })
 
 test('dump', () => {
-  expect(
-    dump(
-      {
-        adjacencies: [],
-        containers: [
-          {
-            slots: [{ count: 16, name: 'iron rod' }],
-            type: 'source',
-          },
-          {
-            slots: [{ count: 32, name: 'iron gear' }],
-            type: 'assembler',
-          },
-          {
-            slots: [{ count: 32, name: 'iron gear' }],
-            type: 'assembler',
-          },
-        ],
-        positions: [],
-      },
-      0,
-    ),
-  ).toStrictEqual<GameState>({
+  const actual = dump(
+    {
+      adjacencies: [],
+      containers: [
+        {
+          slots: [{ count: 16, name: 'iron rod' }],
+          type: 'source',
+        },
+        {
+          slots: [{ count: 32, name: 'iron gear' }],
+          type: 'assembler',
+        },
+        {
+          slots: [{ count: 32, name: 'iron gear' }],
+          type: 'assembler',
+        },
+      ],
+      positions: [],
+    },
+    0,
+  )
+
+  const expected: GameState = {
     adjacencies: [],
     containers: [
       {
@@ -268,7 +283,9 @@ test('dump', () => {
       },
     ],
     positions: [],
-  })
+  }
+
+  expect(actual).toStrictEqual(expected)
 })
 
 describe('move', () => {
