@@ -1,4 +1,4 @@
-import { dump, GameState, insert, move, tick } from './GameState'
+import { dump, GameState, insert, move, tick } from '.'
 
 describe('tick', () => {
   test('do nothing', () => {
