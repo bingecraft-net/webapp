@@ -106,28 +106,24 @@ export function move(
   const adjacencies: Adjacency[] = state.adjacencies.filter(
     ({ from, to }) => from !== key && to !== key,
   )
-  const containers = state.containers.map(
-    (container, index): ContainerState => {
-      if (
-        key !== index &&
-        Math.abs(position.x - container.position.x) === 1
-      )
+  const positions = state.positions.map(
+    (_position, index): Vector1 => {
+      if (key !== index && Math.abs(position.x - _position.x) === 1)
         adjacencies.push({ from: index, to: key })
-      return {
-        ...container,
-        position: key !== index ? container.position : position,
-      }
+      return key !== index ? _position : position
     },
   )
   return {
+    ...state,
     adjacencies,
-    containers,
+    positions,
   }
 }
 
 export interface GameState {
   adjacencies: Adjacency[]
   containers: ContainerState[]
+  positions: Vector1[]
 }
 
 export interface Adjacency {
@@ -136,9 +132,12 @@ export interface Adjacency {
 }
 
 export interface ContainerState {
-  position: { x: number }
   slots: [] | [Slot]
   type: 'source' | 'assembler'
+}
+
+export interface Vector1 {
+  x: number
 }
 
 export interface Slot {

@@ -10,26 +10,23 @@ const defaultState: GameState = {
   ],
   containers: [
     {
-      position: { x: 0 },
       slots: [],
       type: 'source',
     },
     {
-      position: { x: 1 },
       slots: [],
       type: 'assembler',
     },
     {
-      position: { x: 2 },
       slots: [],
       type: 'source',
     },
     {
-      position: { x: 3 },
       slots: [],
       type: 'assembler',
     },
   ],
+  positions: [{ x: 0 }, { x: 1 }, { x: 2 }, { x: 3 }],
 }
 
 export default function App() {
@@ -45,6 +42,7 @@ export default function App() {
           key={key.toString()}
           _key={key}
           container={container}
+          position={state.positions[key]}
         />
       ))}
     </>

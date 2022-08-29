@@ -1,15 +1,17 @@
 import { useCallback, useRef } from 'react'
-import { Action, ContainerState } from './GameState'
+import { Action, ContainerState, Vector1 } from './GameState'
 
 interface ContainerProps {
   dispatch: React.Dispatch<Action>
   _key: number
   container: ContainerState
+  position: Vector1
 }
 export default function Container({
   dispatch,
   _key,
   container,
+  position,
 }: ContainerProps) {
   const drag = useRef<{
     dragging: boolean
@@ -47,9 +49,7 @@ export default function Container({
       style={{
         position: 'absolute',
         left: `calc(8rem*${
-          drag.current.dragging
-            ? drag.current.position.x
-            : container.position.x
+          drag.current.dragging ? drag.current.position.x : position.x
         })`,
         width: '8rem',
         height: '8rem',
