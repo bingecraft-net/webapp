@@ -1,4 +1,4 @@
-import { Assembler, Crate, Machine, State } from '.'
+import { Machine, State } from '.'
 import { recipeSettings } from './RecipeSettings'
 import { combineStacks, Stack } from './Stacks'
 
@@ -32,18 +32,9 @@ export default function transferTick({ machines }: State) {
   return {
     machines: machines.map((machine, key): Machine => {
       const deltas = deltasByMachineIndex.get(key) || []
-      switch (machine.type) {
-        case 'crate':
-          return {
-            ...machine,
-            stacks: combineStacks(machine.stacks, deltas),
-          }
-        case 'assembler':
-          return {
-            ...machine,
-            inStacks: combineStacks(machine.inStacks, deltas),
-          }
-      }
+      return machine.type === 'crate'
+        ? { ...machine, stacks: combineStacks(machine.stacks, deltas) }
+        : { ...machine, inStacks: combineStacks(machine.inStacks, deltas) }
     }),
   }
 }
