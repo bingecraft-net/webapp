@@ -1,20 +1,22 @@
-import { count } from 'console'
-
 export interface State {
   machines: Machine[]
 }
 
-export type Machine =
-  | {
-      stacks: Stack[]
-      type: 'crate'
-    }
-  | {
-      inStacks: Stack[]
-      outStacks: Stack[]
-      potential: number
-      type: 'assembler'
-    }
+export type MachineBase = { position: { x: number; y: number } }
+
+interface Assembler extends MachineBase {
+  inStacks: Stack[]
+  outStacks: Stack[]
+  potential: number
+  type: 'assembler'
+}
+
+interface Crate extends MachineBase {
+  stacks: Stack[]
+  type: 'crate'
+}
+
+export type Machine = Assembler | Crate
 
 export interface Stack {
   count: number

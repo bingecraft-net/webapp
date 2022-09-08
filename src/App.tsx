@@ -5,14 +5,22 @@ export default function App() {
   const [{ machines }, setState] = useState<State>({
     machines: [
       {
+        position: { x: 0, y: 0 },
         stacks: [{ count: 8, name: 'gear' }],
         type: 'crate',
       },
       {
+        position: { x: 1, y: 0 },
         stacks: [{ count: 8, name: 'rod' }],
         type: 'crate',
       },
-      { inStacks: [], outStacks: [], potential: 0, type: 'assembler' },
+      {
+        inStacks: [],
+        outStacks: [],
+        position: { x: 2, y: 0 },
+        potential: 0,
+        type: 'assembler',
+      },
     ],
   })
 
