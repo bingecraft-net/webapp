@@ -1,4 +1,5 @@
-import { assembleTick, State } from '.'
+import { State } from '.'
+import assembleTick from './assembleTick'
 
 describe('assemble tick', () => {
   test('increase potential', () => {

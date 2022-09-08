@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { assembleTick, Machine, State } from './state'
+import { Machine, State } from './state'
+import assembleTick from './state/assembleTick'
 import { Stack } from './state/Stacks'
 import transferTick from './state/transferTick'
 
