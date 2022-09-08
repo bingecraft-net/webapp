@@ -6,7 +6,7 @@ export interface State {
 
 export type MachineBase = { position: { x: number; y: number } }
 
-interface Assembler extends MachineBase {
+export interface Assembler extends MachineBase {
   inStacks: Stack[]
   outStacks: Stack[]
   potential: number
@@ -14,7 +14,7 @@ interface Assembler extends MachineBase {
   type: 'assembler'
 }
 
-interface Crate extends MachineBase {
+export interface Crate extends MachineBase {
   stacks: Stack[]
   type: 'crate'
 }

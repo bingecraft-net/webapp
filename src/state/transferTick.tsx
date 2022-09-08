@@ -1,39 +1,47 @@
-import { Machine, State } from '.'
+import { Assembler, Crate, Machine, State } from '.'
+import { recipeSettings } from './RecipeSettings'
 import { combineStacks, Stack } from './Stacks'
 
 export default function transferTick({ machines }: State) {
-  const transfer = machines.reduce((prev, current) => {
-    switch (current.type) {
-      case 'crate':
-        return prev.concat(
-          current.stacks.map((stack) => ({ ...stack, count: 1 })),
-        )
-      default:
-        return prev
+  const deltasByMachineIndex = new Map<number, Stack[]>()
+  machines.forEach((machine, key) => {
+    if (machine.type === 'assembler') {
+      const deltas = deltasByMachineIndex.get(key) || []
+      const recipe = recipeSettings.recipes.find(
+        (recipe) => recipe.key === machine.recipeKey,
+      )!
+      machines.forEach((other, otherKey) => {
+        if (other.type === 'crate') {
+          const otherDeltas = deltasByMachineIndex.get(otherKey) || []
+          recipe.ingredients.forEach((ingredient) => {
+            if (
+              (other.stacks.find((stack) => stack.name === ingredient.name)
+                ?.count || 0) > 0
+            ) {
+              deltas.push({ name: ingredient.name, count: 1 })
+              otherDeltas.push({ name: ingredient.name, count: -1 })
+            }
+          })
+          deltasByMachineIndex.set(otherKey, otherDeltas)
+        }
+      })
+      deltasByMachineIndex.set(key, deltas)
     }
-  }, new Array<Stack>())
+  })
 
   return {
-    machines: machines.map((machine): Machine => {
+    machines: machines.map((machine, key): Machine => {
+      const deltas = deltasByMachineIndex.get(key) || []
       switch (machine.type) {
         case 'crate':
           return {
             ...machine,
-            stacks: machine.stacks.flatMap((stack) => {
-              return stack.count > 1
-                ? [
-                    {
-                      ...stack,
-                      count: stack.count - 1,
-                    },
-                  ]
-                : []
-            }),
+            stacks: combineStacks(machine.stacks, deltas),
           }
         case 'assembler':
           return {
             ...machine,
-            inStacks: combineStacks(machine.inStacks, transfer),
+            inStacks: combineStacks(machine.inStacks, deltas),
           }
       }
     }),

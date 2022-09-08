@@ -42,6 +42,44 @@ describe('transfer tick', () => {
     expect(actual).toStrictEqual(expected)
   })
 
+  test('dont transfer ingredients that dont match assembler recipe', () => {
+    const actual = transferTick({
+      machines: [
+        {
+          position: { x: 0, y: 0 },
+          stacks: [{ count: 1, name: 'rod' }],
+          type: 'crate',
+        },
+        {
+          inStacks: [],
+          outStacks: [],
+          position: { x: 0, y: 0 },
+          potential: 0,
+          recipeKey: 'machine hull',
+          type: 'assembler',
+        },
+      ],
+    })
+    const expected: State = {
+      machines: [
+        {
+          position: { x: 0, y: 0 },
+          stacks: [{ count: 1, name: 'rod' }],
+          type: 'crate',
+        },
+        {
+          inStacks: [],
+          outStacks: [],
+          position: { x: 0, y: 0 },
+          potential: 0,
+          recipeKey: 'machine hull',
+          type: 'assembler',
+        },
+      ],
+    }
+    expect(actual).toStrictEqual(expected)
+  })
+
   test('transfer one per tick', () => {
     const actual = transferTick({
       machines: [
