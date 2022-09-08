@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Machine, State } from './state'
+import { Machine, RecipeKey, setRecipeKey, State } from './state'
 import assembleTick from './state/assembleTick'
+import { recipeSettings } from './state/RecipeSettings'
 import { Stack } from './state/Stacks'
 import transferTick from './state/transferTick'
 
@@ -40,21 +41,42 @@ export default function App() {
   return (
     <div>
       {machines.map((machine, index) => (
-        <MachineView key={index} machine={machine} />
+        <MachineView
+          key={index}
+          machine={machine}
+          setRecipeKey={(recipeKey) =>
+            setState(setRecipeKey(index, recipeKey))
+          }
+        />
       ))}
     </div>
   )
 }
 
-type MachineViewProps = { machine: Machine }
-function MachineView({ machine }: MachineViewProps) {
+type MachineViewProps = {
+  machine: Machine
+  setRecipeKey: (key: RecipeKey) => void
+}
+function MachineView({ machine, setRecipeKey }: MachineViewProps) {
   return (
     <div>
       <div>{machine.type}</div>
       <div style={{ paddingLeft: '1rem' }}>
         {machine.type === 'assembler' ? (
           <>
-            <div>recipe: {machine.recipeKey}</div>
+            <div>
+              recipe:{' '}
+              <select
+                value={machine.recipeKey}
+                onChange={(e) => setRecipeKey(e.target.value as RecipeKey)}
+              >
+                {recipeSettings.recipes.map((recipe, index) => (
+                  <option key={index} value={recipe.key}>
+                    {recipe.key}
+                  </option>
+                ))}
+              </select>
+            </div>
             <div>potential: {machine.potential}</div>
             <div>in stacks:</div>
             <div style={{ paddingLeft: '1rem' }}>
