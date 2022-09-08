@@ -1,4 +1,4 @@
-import { assembleTick, State, transferTick } from './State'
+import { assembleTick, State, transferTick } from '.'
 
 describe('transfer tick', () => {
   test('tick no machines', () => {
