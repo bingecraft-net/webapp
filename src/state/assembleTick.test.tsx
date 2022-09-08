@@ -60,7 +60,7 @@ describe('assemble tick', () => {
 
     expect(actual).toStrictEqual(expected)
   })
-  test('consume potential and ingredients to create product', () => {
+  test('consume potential and ingredients to create widget', () => {
     const actual = assembleTick({
       machines: [
         {
@@ -80,6 +80,32 @@ describe('assemble tick', () => {
         {
           inStacks: [],
           outStacks: [{ count: 2, name: 'widget' }],
+          position: { x: 0, y: 0 },
+          potential: 0,
+          type: 'assembler',
+        },
+      ],
+    }
+
+    expect(actual).toStrictEqual(expected)
+  })
+  test('consume potential and ingredients to create machine hull', () => {
+    const actual = assembleTick({
+      machines: [
+        {
+          inStacks: [{ count: 8, name: 'plate' }],
+          outStacks: [],
+          position: { x: 0, y: 0 },
+          potential: 19,
+          type: 'assembler',
+        },
+      ],
+    })
+    const expected: State = {
+      machines: [
+        {
+          inStacks: [],
+          outStacks: [{ count: 1, name: 'machine hull' }],
           position: { x: 0, y: 0 },
           potential: 0,
           type: 'assembler',

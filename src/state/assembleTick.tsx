@@ -1,5 +1,30 @@
 import { Machine, State } from '.'
-import { stackCountByName, stacks } from './Stacks'
+import { Stack, stackCountByName, stacks } from './Stacks'
+
+interface Settings {
+  recipes: Recipe[]
+}
+
+interface Recipe {
+  ingredients: Stack[]
+  products: Stack[]
+}
+
+export const settings: Settings = {
+  recipes: [
+    {
+      ingredients: [
+        { count: 2, name: 'gear' },
+        { count: 1, name: 'rod' },
+      ],
+      products: [{ count: 1, name: 'widget' }],
+    },
+    {
+      ingredients: [{ count: 8, name: 'plate' }],
+      products: [{ count: 1, name: 'machine hull' }],
+    },
+  ],
+}
 
 export default function assembleTick({ machines }: State): State {
   return {
@@ -10,24 +35,37 @@ export default function assembleTick({ machines }: State): State {
       if (potential < 20) return { ...machine, potential }
 
       const outCountByName = stackCountByName(machine.outStacks)
-
       const inCountByName = stackCountByName(machine.inStacks)
-      const gearCount = inCountByName.get('gear') || 0
-      const rodCount = inCountByName.get('rod') || 0
-      if (gearCount >= 2 && rodCount >= 1) {
-        inCountByName.set('gear', gearCount - 2)
-        inCountByName.set('rod', rodCount - 1)
-        outCountByName.set(
-          'widget',
-          (outCountByName.get('widget') || 0) + 1,
-        )
-        return {
-          ...machine,
-          inStacks: stacks(inCountByName),
-          outStacks: stacks(outCountByName),
-          potential: 0,
+
+      for (const recipe of settings.recipes) {
+        if (
+          recipe.ingredients.every(
+            (ingredient) =>
+              (inCountByName.get(ingredient.name) || 0) >=
+              ingredient.count,
+          )
+        ) {
+          recipe.ingredients.forEach((ingredient) =>
+            inCountByName.set(
+              ingredient.name,
+              inCountByName.get(ingredient.name)! - ingredient.count,
+            ),
+          )
+          recipe.products.forEach((product) =>
+            outCountByName.set(
+              product.name,
+              (outCountByName.get(product.name) || 0) + product.count,
+            ),
+          )
+          return {
+            ...machine,
+            inStacks: stacks(inCountByName),
+            outStacks: stacks(outCountByName),
+            potential: 0,
+          }
         }
       }
+
       return { ...machine, potential }
     }),
   }

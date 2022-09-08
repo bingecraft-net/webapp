@@ -9,7 +9,10 @@ export default function App() {
     machines: [
       {
         position: { x: 0, y: 0 },
-        stacks: [{ count: 8, name: 'gear' }],
+        stacks: [
+          { count: 8, name: 'gear' },
+          { count: 8, name: 'plate' },
+        ],
         type: 'crate',
       },
       {

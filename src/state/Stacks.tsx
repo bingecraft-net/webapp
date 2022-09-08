@@ -3,7 +3,12 @@ export interface Stack {
   name: StackName
 }
 
-export type StackName = 'gear' | 'rod' | 'widget'
+export type StackName =
+  | 'gear'
+  | 'machine hull'
+  | 'plate'
+  | 'rod'
+  | 'widget'
 
 export function combineStacks(
   operand0: Stack[],
