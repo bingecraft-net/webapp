@@ -28,6 +28,7 @@ export interface RecipeSettings {
 export interface Recipe {
   key: RecipeKey
   ingredients: Stack[]
+  potential: number
   products: Stack[]
 }
 

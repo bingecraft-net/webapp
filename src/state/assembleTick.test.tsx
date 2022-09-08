@@ -3,7 +3,7 @@ import assembleTick from './assembleTick'
 
 describe('assemble tick', () => {
   test('increase potential', () => {
-    const actual = assembleTick({
+    const actual0 = assembleTick({
       machines: [
         {
           inStacks: [
@@ -12,13 +12,14 @@ describe('assemble tick', () => {
           ],
           outStacks: [],
           position: { x: 0, y: 0 },
-          potential: 4,
+          potential: 18,
           recipeKey: 'widget',
           type: 'assembler',
         },
       ],
     })
-    const expected: State = {
+
+    const expected0: State = {
       machines: [
         {
           inStacks: [
@@ -27,17 +28,45 @@ describe('assemble tick', () => {
           ],
           outStacks: [],
           position: { x: 0, y: 0 },
-          potential: 5,
+          potential: 19,
           recipeKey: 'widget',
           type: 'assembler',
         },
       ],
     }
 
-    expect(actual).toStrictEqual(expected)
+    expect(actual0).toStrictEqual(expected0)
+
+    const actual1 = assembleTick({
+      machines: [
+        {
+          inStacks: [{ count: 8, name: 'plate' }],
+          outStacks: [],
+          position: { x: 0, y: 0 },
+          potential: 38,
+          recipeKey: 'machine hull',
+          type: 'assembler',
+        },
+      ],
+    })
+
+    const expected1: State = {
+      machines: [
+        {
+          inStacks: [{ count: 8, name: 'plate' }],
+          outStacks: [],
+          position: { x: 0, y: 0 },
+          potential: 39,
+          recipeKey: 'machine hull',
+          type: 'assembler',
+        },
+      ],
+    }
+
+    expect(actual1).toStrictEqual(expected1)
   })
   test('cap potential', () => {
-    const actual = assembleTick({
+    const actual0 = assembleTick({
       machines: [
         {
           inStacks: [],
@@ -49,7 +78,7 @@ describe('assemble tick', () => {
         },
       ],
     })
-    const expected: State = {
+    const expected0: State = {
       machines: [
         {
           inStacks: [],
@@ -62,7 +91,34 @@ describe('assemble tick', () => {
       ],
     }
 
-    expect(actual).toStrictEqual(expected)
+    expect(actual0).toStrictEqual(expected0)
+
+    const actual1 = assembleTick({
+      machines: [
+        {
+          inStacks: [],
+          outStacks: [],
+          position: { x: 0, y: 0 },
+          potential: 40,
+          recipeKey: 'machine hull',
+          type: 'assembler',
+        },
+      ],
+    })
+    const expected1: State = {
+      machines: [
+        {
+          inStacks: [],
+          outStacks: [],
+          position: { x: 0, y: 0 },
+          potential: 40,
+          recipeKey: 'machine hull',
+          type: 'assembler',
+        },
+      ],
+    }
+
+    expect(actual1).toStrictEqual(expected1)
   })
   test('consume potential and ingredients to create widget', () => {
     const actual = assembleTick({
@@ -102,7 +158,7 @@ describe('assemble tick', () => {
           inStacks: [{ count: 8, name: 'plate' }],
           outStacks: [],
           position: { x: 0, y: 0 },
-          potential: 19,
+          potential: 39,
           recipeKey: 'machine hull',
           type: 'assembler',
         },

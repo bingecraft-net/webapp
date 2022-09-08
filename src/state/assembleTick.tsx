@@ -10,8 +10,8 @@ export default function assembleTick({ machines }: State): State {
         (recipe) => recipe.key === machine.recipeKey,
       )!
 
-      const potential = Math.min(20, machine.potential + 1)
-      if (potential < 20) return { ...machine, potential }
+      const potential = Math.min(recipe.potential, machine.potential + 1)
+      if (potential < recipe.potential) return { ...machine, potential }
 
       const outCountByName = stackCountByName(machine.outStacks)
       const inCountByName = stackCountByName(machine.inStacks)
