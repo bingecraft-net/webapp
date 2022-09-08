@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Machine, Stack, State, tick } from './State'
+import { assembleTick, Machine, Stack, State, transferTick } from './State'
 
 export default function App() {
   const [{ machines }, setState] = useState<State>({
@@ -12,12 +12,15 @@ export default function App() {
         stacks: [{ count: 8, name: 'rod' }],
         type: 'crate',
       },
-      { inStacks: [], outStacks: [], type: 'assembler' },
+      { inStacks: [], outStacks: [], potential: 0, type: 'assembler' },
     ],
   })
 
   useEffect(() => {
-    setInterval(() => setState(tick), 1000 / 20)
+    setInterval(
+      () => setState((state) => assembleTick(transferTick(state))),
+      1000 / 20,
+    )
   }, [])
   return (
     <div>
@@ -33,26 +36,25 @@ function MachineView({ machine }: MachineViewProps) {
   return (
     <div>
       <div>{machine.type}</div>
-      <div style={{ textIndent: '1rem' }}>
-        <MachineStacks machine={machine} />
+      <div style={{ paddingLeft: '1rem' }}>
+        {machine.type === 'assembler' ? (
+          <>
+            <div>potential: {machine.potential}</div>
+            <div>in stacks:</div>
+            <div style={{ paddingLeft: '1rem' }}>
+              <Stacks stacks={machine.inStacks} />
+            </div>
+            <div>out stacks:</div>
+            <div style={{ paddingLeft: '1rem' }}>
+              <Stacks stacks={machine.outStacks} />
+            </div>
+          </>
+        ) : (
+          <Stacks stacks={machine.stacks} />
+        )}
       </div>
     </div>
   )
-}
-
-type MachineStacksProps = { machine: Machine }
-function MachineStacks({ machine }: MachineStacksProps) {
-  switch (machine.type) {
-    case 'assembler':
-      return (
-        <>
-          <Stacks stacks={machine.inStacks} />
-          <Stacks stacks={machine.outStacks} />
-        </>
-      )
-    case 'crate':
-      return <Stacks stacks={machine.stacks} />
-  }
 }
 
 type StacksProps = { stacks: Stack[] }
