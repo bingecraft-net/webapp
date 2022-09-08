@@ -21,7 +21,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "sync": "aws s3 sync build s3://glizzycon.bingecraft.net"
+    "sync": "aws s3 sync build s3://glizzycon.bingecraft.net",
+    "invalidate": "aws cloudfront create-invalidation --distribution-id EN6RT1CSHR2C9 --paths /"
   },
   "eslintConfig": {
     "extends": [
