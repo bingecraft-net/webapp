@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import { assembleTick, Machine, State, transferTick } from './state'
+import { assembleTick, Machine, State } from './state'
 import { Stack } from './state/Stacks'
+import transferTick from './state/transferTick'
 
 export default function App() {
   const [{ machines }, setState] = useState<State>({
