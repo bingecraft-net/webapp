@@ -13,6 +13,7 @@ describe('assemble tick', () => {
           outStacks: [],
           position: { x: 0, y: 0 },
           potential: 4,
+          recipeKey: 'widget',
           type: 'assembler',
         },
       ],
@@ -27,6 +28,7 @@ describe('assemble tick', () => {
           outStacks: [],
           position: { x: 0, y: 0 },
           potential: 5,
+          recipeKey: 'widget',
           type: 'assembler',
         },
       ],
@@ -42,6 +44,7 @@ describe('assemble tick', () => {
           outStacks: [],
           position: { x: 0, y: 0 },
           potential: 20,
+          recipeKey: 'widget',
           type: 'assembler',
         },
       ],
@@ -53,6 +56,7 @@ describe('assemble tick', () => {
           outStacks: [],
           position: { x: 0, y: 0 },
           potential: 20,
+          recipeKey: 'widget',
           type: 'assembler',
         },
       ],
@@ -71,6 +75,7 @@ describe('assemble tick', () => {
           outStacks: [{ count: 1, name: 'widget' }],
           position: { x: 0, y: 0 },
           potential: 19,
+          recipeKey: 'widget',
           type: 'assembler',
         },
       ],
@@ -82,6 +87,7 @@ describe('assemble tick', () => {
           outStacks: [{ count: 2, name: 'widget' }],
           position: { x: 0, y: 0 },
           potential: 0,
+          recipeKey: 'widget',
           type: 'assembler',
         },
       ],
@@ -97,6 +103,7 @@ describe('assemble tick', () => {
           outStacks: [],
           position: { x: 0, y: 0 },
           potential: 19,
+          recipeKey: 'machine hull',
           type: 'assembler',
         },
       ],
@@ -108,6 +115,35 @@ describe('assemble tick', () => {
           outStacks: [{ count: 1, name: 'machine hull' }],
           position: { x: 0, y: 0 },
           potential: 0,
+          recipeKey: 'machine hull',
+          type: 'assembler',
+        },
+      ],
+    }
+
+    expect(actual).toStrictEqual(expected)
+  })
+  test('block creating other recipes', () => {
+    const actual = assembleTick({
+      machines: [
+        {
+          inStacks: [{ count: 8, name: 'plate' }],
+          outStacks: [],
+          position: { x: 0, y: 0 },
+          potential: 20,
+          recipeKey: 'widget',
+          type: 'assembler',
+        },
+      ],
+    })
+    const expected: State = {
+      machines: [
+        {
+          inStacks: [{ count: 8, name: 'plate' }],
+          outStacks: [],
+          position: { x: 0, y: 0 },
+          potential: 20,
+          recipeKey: 'widget',
           type: 'assembler',
         },
       ],

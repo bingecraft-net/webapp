@@ -10,6 +10,7 @@ interface Assembler extends MachineBase {
   inStacks: Stack[]
   outStacks: Stack[]
   potential: number
+  recipeKey: RecipeKey
   type: 'assembler'
 }
 
@@ -19,3 +20,15 @@ interface Crate extends MachineBase {
 }
 
 export type Machine = Assembler | Crate
+
+export interface RecipeSettings {
+  recipes: Recipe[]
+}
+
+export interface Recipe {
+  key: RecipeKey
+  ingredients: Stack[]
+  products: Stack[]
+}
+
+export type RecipeKey = 'machine hull' | 'widget'

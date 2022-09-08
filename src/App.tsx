@@ -25,6 +25,7 @@ export default function App() {
         outStacks: [],
         position: { x: 2, y: 0 },
         potential: 0,
+        recipeKey: 'machine hull',
         type: 'assembler',
       },
     ],
@@ -53,6 +54,7 @@ function MachineView({ machine }: MachineViewProps) {
       <div style={{ paddingLeft: '1rem' }}>
         {machine.type === 'assembler' ? (
           <>
+            <div>recipe: {machine.recipeKey}</div>
             <div>potential: {machine.potential}</div>
             <div>in stacks:</div>
             <div style={{ paddingLeft: '1rem' }}>
