@@ -17,7 +17,10 @@ export default function assembleTick({ machines }: State): State {
       if (gearCount >= 2 && rodCount >= 1) {
         inCountByName.set('gear', gearCount - 2)
         inCountByName.set('rod', rodCount - 1)
-        outCountByName.set('widget', 1)
+        outCountByName.set(
+          'widget',
+          (outCountByName.get('widget') || 0) + 1,
+        )
         return {
           ...machine,
           inStacks: stacks(inCountByName),

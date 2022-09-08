@@ -68,7 +68,7 @@ describe('assemble tick', () => {
             { count: 2, name: 'gear' },
             { count: 1, name: 'rod' },
           ],
-          outStacks: [],
+          outStacks: [{ count: 1, name: 'widget' }],
           position: { x: 0, y: 0 },
           potential: 19,
           type: 'assembler',
@@ -79,7 +79,7 @@ describe('assemble tick', () => {
       machines: [
         {
           inStacks: [],
-          outStacks: [{ count: 1, name: 'widget' }],
+          outStacks: [{ count: 2, name: 'widget' }],
           position: { x: 0, y: 0 },
           potential: 0,
           type: 'assembler',
