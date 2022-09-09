@@ -10,6 +10,7 @@ describe('assemble tick', () => {
             { count: 2, name: 'gear' },
             { count: 1, name: 'rod' },
           ],
+          key: 'assembler0',
           outStacks: [],
           position: { x: 0, y: 0 },
           potential: 18,
@@ -26,6 +27,7 @@ describe('assemble tick', () => {
             { count: 2, name: 'gear' },
             { count: 1, name: 'rod' },
           ],
+          key: 'assembler0',
           outStacks: [],
           position: { x: 0, y: 0 },
           potential: 19,
@@ -41,6 +43,7 @@ describe('assemble tick', () => {
       machines: [
         {
           inStacks: [{ count: 8, name: 'plate' }],
+          key: 'assembler0',
           outStacks: [],
           position: { x: 0, y: 0 },
           potential: 38,
@@ -54,6 +57,7 @@ describe('assemble tick', () => {
       machines: [
         {
           inStacks: [{ count: 8, name: 'plate' }],
+          key: 'assembler0',
           outStacks: [],
           position: { x: 0, y: 0 },
           potential: 39,
@@ -70,6 +74,7 @@ describe('assemble tick', () => {
       machines: [
         {
           inStacks: [],
+          key: 'assembler0',
           outStacks: [],
           position: { x: 0, y: 0 },
           potential: 20,
@@ -82,6 +87,7 @@ describe('assemble tick', () => {
       machines: [
         {
           inStacks: [],
+          key: 'assembler0',
           outStacks: [],
           position: { x: 0, y: 0 },
           potential: 20,
@@ -97,6 +103,7 @@ describe('assemble tick', () => {
       machines: [
         {
           inStacks: [],
+          key: 'assembler0',
           outStacks: [],
           position: { x: 0, y: 0 },
           potential: 40,
@@ -109,6 +116,7 @@ describe('assemble tick', () => {
       machines: [
         {
           inStacks: [],
+          key: 'assembler0',
           outStacks: [],
           position: { x: 0, y: 0 },
           potential: 40,
@@ -128,6 +136,7 @@ describe('assemble tick', () => {
             { count: 2, name: 'gear' },
             { count: 1, name: 'rod' },
           ],
+          key: 'assembler0',
           outStacks: [{ count: 1, name: 'widget' }],
           position: { x: 0, y: 0 },
           potential: 19,
@@ -140,6 +149,7 @@ describe('assemble tick', () => {
       machines: [
         {
           inStacks: [],
+          key: 'assembler0',
           outStacks: [{ count: 2, name: 'widget' }],
           position: { x: 0, y: 0 },
           potential: 0,
@@ -156,6 +166,7 @@ describe('assemble tick', () => {
       machines: [
         {
           inStacks: [{ count: 8, name: 'plate' }],
+          key: 'assembler0',
           outStacks: [],
           position: { x: 0, y: 0 },
           potential: 39,
@@ -168,6 +179,7 @@ describe('assemble tick', () => {
       machines: [
         {
           inStacks: [],
+          key: 'assembler0',
           outStacks: [{ count: 1, name: 'machine hull' }],
           position: { x: 0, y: 0 },
           potential: 0,
@@ -184,6 +196,7 @@ describe('assemble tick', () => {
       machines: [
         {
           inStacks: [{ count: 8, name: 'plate' }],
+          key: 'assembler0',
           outStacks: [],
           position: { x: 0, y: 0 },
           potential: 20,
@@ -196,6 +209,7 @@ describe('assemble tick', () => {
       machines: [
         {
           inStacks: [{ count: 8, name: 'plate' }],
+          key: 'assembler0',
           outStacks: [],
           position: { x: 0, y: 0 },
           potential: 20,

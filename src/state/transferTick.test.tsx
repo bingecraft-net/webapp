@@ -12,11 +12,13 @@ describe('transfer tick', () => {
     const actual = transferTick({
       machines: [
         {
+          key: 'crate0',
           position: { x: 0, y: 0 },
           stacks: [{ count: 1, name: 'rod' }],
           type: 'crate',
         },
         {
+          key: 'crate1',
           inStacks: [],
           outStacks: [],
           position: { x: 0, y: 0 },
@@ -28,8 +30,14 @@ describe('transfer tick', () => {
     })
     const expected: State = {
       machines: [
-        { position: { x: 0, y: 0 }, stacks: [], type: 'crate' },
         {
+          key: 'crate0',
+          position: { x: 0, y: 0 },
+          stacks: [],
+          type: 'crate',
+        },
+        {
+          key: 'crate1',
           inStacks: [{ count: 1, name: 'rod' }],
           outStacks: [],
           position: { x: 0, y: 0 },
@@ -46,12 +54,14 @@ describe('transfer tick', () => {
     const actual = transferTick({
       machines: [
         {
+          key: 'crate0',
           position: { x: 0, y: 0 },
           stacks: [{ count: 1, name: 'rod' }],
           type: 'crate',
         },
         {
           inStacks: [],
+          key: 'assembler0',
           outStacks: [],
           position: { x: 0, y: 0 },
           potential: 0,
@@ -63,12 +73,14 @@ describe('transfer tick', () => {
     const expected: State = {
       machines: [
         {
+          key: 'crate0',
           position: { x: 0, y: 0 },
           stacks: [{ count: 1, name: 'rod' }],
           type: 'crate',
         },
         {
           inStacks: [],
+          key: 'assembler0',
           outStacks: [],
           position: { x: 0, y: 0 },
           potential: 0,
@@ -84,12 +96,14 @@ describe('transfer tick', () => {
     const actual = transferTick({
       machines: [
         {
+          key: 'crate0',
           position: { x: 0, y: 0 },
           stacks: [{ count: 2, name: 'rod' }],
           type: 'crate',
         },
         {
           inStacks: [],
+          key: 'assembler0',
           outStacks: [],
           position: { x: 0, y: 0 },
           potential: 0,
@@ -101,12 +115,14 @@ describe('transfer tick', () => {
     const expected: State = {
       machines: [
         {
+          key: 'crate0',
           position: { x: 0, y: 0 },
           stacks: [{ count: 1, name: 'rod' }],
           type: 'crate',
         },
         {
           inStacks: [{ count: 1, name: 'rod' }],
+          key: 'assembler0',
           outStacks: [],
           position: { x: 0, y: 0 },
           potential: 0,
@@ -123,6 +139,7 @@ describe('transfer tick', () => {
       machines: [
         {
           inStacks: [{ count: 1, name: 'rod' }],
+          key: 'assembler0',
           outStacks: [],
           position: { x: 0, y: 0 },
           potential: 0,
@@ -135,6 +152,7 @@ describe('transfer tick', () => {
       machines: [
         {
           inStacks: [{ count: 1, name: 'rod' }],
+          key: 'assembler0',
           outStacks: [],
           position: { x: 0, y: 0 },
           potential: 0,
@@ -151,12 +169,14 @@ describe('transfer tick', () => {
       transferTick({
         machines: [
           {
+            key: 'crate0',
             position: { x: 0, y: 0 },
             stacks: [{ count: 2, name: 'rod' }],
             type: 'crate',
           },
           {
             inStacks: [],
+            key: 'assembler0',
             outStacks: [],
             position: { x: 0, y: 0 },
             potential: 0,
@@ -169,12 +189,14 @@ describe('transfer tick', () => {
     const expected: State = {
       machines: [
         {
+          key: 'crate0',
           position: { x: 0, y: 0 },
           stacks: [],
           type: 'crate',
         },
         {
           inStacks: [{ count: 2, name: 'rod' }],
+          key: 'assembler0',
           outStacks: [],
           position: { x: 0, y: 0 },
           potential: 0,

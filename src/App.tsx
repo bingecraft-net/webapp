@@ -8,6 +8,7 @@ export default function App() {
   const [state, setState] = useState<State>({
     machines: [
       {
+        key: 'crate0',
         position: { x: 0, y: 0 },
         stacks: [
           { count: 8, name: 'gear' },
@@ -16,11 +17,13 @@ export default function App() {
         type: 'crate',
       },
       {
+        key: 'crate1',
         position: { x: 1, y: 0 },
         stacks: [{ count: 8, name: 'rod' }],
         type: 'crate',
       },
       {
+        key: 'assembler0',
         inStacks: [],
         outStacks: [],
         position: { x: 2, y: 0 },

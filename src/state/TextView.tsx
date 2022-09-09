@@ -32,7 +32,9 @@ type MachineViewProps = {
 function MachineView({ machine, setRecipeKey }: MachineViewProps) {
   return (
     <div>
-      <div>{machine.type}</div>
+      <div>
+        {machine.key} ({machine.type})
+      </div>
       <div style={{ paddingLeft: '1rem' }}>
         {machine.type === 'assembler' ? (
           <>

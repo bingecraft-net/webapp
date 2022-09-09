@@ -4,7 +4,10 @@ export interface State {
   machines: Machine[]
 }
 
-export type MachineBase = { position: { x: number; y: number } }
+export type MachineBase = {
+  key: string
+  position: { x: number; y: number }
+}
 
 export interface Assembler extends MachineBase {
   inStacks: Stack[]
