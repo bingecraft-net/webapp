@@ -38,14 +38,14 @@ export interface Recipe {
 export type RecipeKey = 'machine hull' | 'widget'
 
 export function setRecipeKey(
-  key: number,
+  key: string,
   recipeKey: RecipeKey,
 ): (prevState: State) => State {
   return ({ machines }) => {
     return {
       machines: machines.map(
-        (machine, _key): Machine =>
-          _key !== key || machine.type !== 'assembler'
+        (machine): Machine =>
+          machine.key !== key || machine.type !== 'assembler'
             ? machine
             : { ...machine, potential: 0, recipeKey },
       ),

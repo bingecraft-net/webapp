@@ -12,13 +12,11 @@ export default function TextView({
 }) {
   return (
     <div>
-      {machines.map((machine, index) => (
+      {machines.map((machine) => (
         <MachineView
-          key={index}
+          key={machine.key}
           machine={machine}
-          setRecipeKey={(recipeKey) =>
-            setState(setRecipeKey(index, recipeKey))
-          }
+          setState={setState}
         />
       ))}
     </div>
@@ -27,9 +25,9 @@ export default function TextView({
 
 type MachineViewProps = {
   machine: Machine
-  setRecipeKey: (key: RecipeKey) => void
+  setState: React.Dispatch<React.SetStateAction<State>>
 }
-function MachineView({ machine, setRecipeKey }: MachineViewProps) {
+function MachineView({ machine, setState }: MachineViewProps) {
   return (
     <div>
       <div>
@@ -42,7 +40,11 @@ function MachineView({ machine, setRecipeKey }: MachineViewProps) {
               recipe:{' '}
               <select
                 value={machine.recipeKey}
-                onChange={(e) => setRecipeKey(e.target.value as RecipeKey)}
+                onChange={(e) =>
+                  setState(
+                    setRecipeKey(machine.key, e.target.value as RecipeKey),
+                  )
+                }
               >
                 {recipeSettings.recipes.map((recipe, index) => (
                   <option key={index} value={recipe.key}>
