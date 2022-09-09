@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { State } from './state'
 import assembleTick from './state/assembleTick'
 import TextView from './state/TextView'
@@ -42,10 +42,14 @@ export default function App() {
   }, [])
 
   return (
-    <>
-      <TextView setState={setState} state={state} />
-      <TwoDView setState={setState} state={state} />
-    </>
+    <div style={{ position: 'relative', height: '100%' }}>
+      <div style={{ position: 'absolute', height: '100%', width: '100%' }}>
+        <TextView setState={setState} state={state} />
+      </div>
+      <div style={{ position: 'absolute', height: '100%', width: '100%' }}>
+        <TwoDView setState={setState} state={state} />
+      </div>
+    </div>
   )
 }
 
@@ -54,15 +58,38 @@ interface TwoDViewProps {
   state: State
 }
 function TwoDView({ setState, state }: TwoDViewProps) {
+  const [{ offset }, setCamera] = useState({ offset: { x: 0, y: 0 } })
+  const context = useRef({
+    dragging: false,
+    lastPosition: { x: 0, y: 0 },
+  })
   return (
-    <div style={{ position: 'relative' }}>
+    <div
+      style={{ position: 'relative', height: '100%' }}
+      onPointerDown={(e) => {
+        context.current = {
+          dragging: true,
+          lastPosition: { x: e.pageX, y: e.pageY },
+        }
+      }}
+      onPointerMove={(e) => {
+        const dx = context.current.lastPosition.x - e.pageX
+        const dy = context.current.lastPosition.y - e.pageY
+        if (context.current.dragging)
+          setCamera((camera) => ({
+            offset: { x: camera.offset.x - dx, y: camera.offset.y - dy },
+          }))
+        context.current.lastPosition = { x: e.pageX, y: e.pageY }
+      }}
+      onPointerUp={() => (context.current.dragging = false)}
+    >
       {state.machines.map((machine) => (
         <div
           key={machine.key}
           style={{
             position: 'absolute',
-            left: 128 * machine.position.x,
-            top: 128 * machine.position.y,
+            left: offset.x + 128 * machine.position.x,
+            top: offset.y + 128 * machine.position.y,
             width: 128,
             height: 128,
             backgroundColor: '#AAB',
