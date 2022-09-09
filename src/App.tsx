@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { State } from './state'
 import assembleTick from './state/assembleTick'
 import TextView from './state/TextView'
@@ -41,5 +41,39 @@ export default function App() {
     )
   }, [])
 
-  return <TextView setState={setState} state={state} />
+  return (
+    <>
+      <TextView setState={setState} state={state} />
+      <TwoDView setState={setState} state={state} />
+    </>
+  )
+}
+
+interface TwoDViewProps {
+  setState: React.Dispatch<React.SetStateAction<State>>
+  state: State
+}
+function TwoDView({ setState, state }: TwoDViewProps) {
+  return (
+    <div style={{ position: 'relative' }}>
+      {state.machines.map((machine) => (
+        <div
+          key={machine.key}
+          style={{
+            position: 'absolute',
+            left: 128 * machine.position.x,
+            top: 128 * machine.position.y,
+            width: 128,
+            height: 128,
+            backgroundColor: '#AAB',
+            border: '1px solid black',
+            padding: '1rem',
+            boxSizing: 'border-box',
+          }}
+        >
+          {machine.key}
+        </div>
+      ))}
+    </div>
+  )
 }
