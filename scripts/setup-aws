@@ -1,6 +1,6 @@
 #!/bin/zsh
 hostedZoneName=bingecraft.net
-name=glizzycon.bingecraft.net
+name=humper.bingecraft.net
 certificateArn=arn:aws:acm:us-east-1:552879364626:certificate/0b3dc631-7572-49c3-a315-3e39fe6da742
 callerReference=`uuidgen`
 
@@ -14,5 +14,5 @@ aws cloudfront create-distribution --distribution-config file://<(echo $distribu
 distribution=`aws cloudfront list-distributions | jq ".DistributionList.Items[]|select(.Aliases.Items[]|contains(\"$name\"))"`
 domainName=`echo $distribution | jq .DomainName -r`
 hostedZoneId=`aws route53 list-hosted-zones-by-name --dns-name $hostedZoneName | jq '.HostedZones[0].Id' -r | rev | cut -d / -f1 | rev`
-changeBatch=`jq ".Changes[].ResourceRecordSet.Name=\"$name\"|.Changes[].ResourceRecordSet.AliasTarget.DNSName=\"$domainName\"|.Changes[].ResourceRecordSet.AliasTarget.HostedZoneId=\"$hostedZoneId\"" scripts/change-batch.json`
+changeBatch=`jq ".Changes[].ResourceRecordSet.Name=\"$name\"|.Changes[].ResourceRecordSet.AliasTarget.DNSName=\"$domainName\"" scripts/change-batch.json`
 aws route53 change-resource-record-sets --hosted-zone-id $hostedZoneId --change-batch file://<(echo $changeBatch)

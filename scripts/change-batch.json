@@ -6,7 +6,7 @@
         "Name": "populated by script",
         "Type": "A",
         "AliasTarget": {
-          "HostedZoneId": "populated by script",
+          "HostedZoneId": "Z2FDTNDATAQYW2",
           "DNSName": "populated by script",
           "EvaluateTargetHealth": false
         }
