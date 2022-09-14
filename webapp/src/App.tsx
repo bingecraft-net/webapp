@@ -33,6 +33,9 @@ export default function App() {
           <Link href="mailto:glizzywort@gmail.com">
             email (glizzywort@gmail.com)
           </Link>
+          <Link href="https://pbs.twimg.com/media/FFdKHA7X0AQCkVv?format=jpg&name=4096x4096">
+            ore distribution
+          </Link>
         </p>
       </div>
     </div>
