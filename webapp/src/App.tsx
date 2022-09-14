@@ -18,9 +18,10 @@ export default function App() {
       <div>
         <h2 style={{ margin: 0 }}>welcome</h2>
         <p style={{ margin: '0.5rem 0' }}>
-          You're invited to Glizzy's peaceful WAN party! Turn up the lofi,
+          You are invited to Glizzy's peaceful WAN party! Turn up the lofi,
           grab a hot drink and cozy up with friends for some casual vanilla
-          Minecraft.
+          Minecraft. We are swimming in pumpkin spice with an autumn server
+          theme.
         </p>
       </div>
       <div>
