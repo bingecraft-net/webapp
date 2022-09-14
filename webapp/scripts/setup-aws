@@ -1,6 +1,6 @@
 #!/bin/zsh
 hostedZoneName=bingecraft.net
-name=humper.bingecraft.net
+name=bingecraft.net
 certificateArn=arn:aws:acm:us-east-1:552879364626:certificate/0b3dc631-7572-49c3-a315-3e39fe6da742
 callerReference=`uuidgen`
 
@@ -11,7 +11,7 @@ aws s3api put-bucket-policy --bucket $name --policy file://<(echo $bucketPolicy)
 distributionConfig=`jq ".Aliases.Items=[\"$name\"]|.Origins.Items[0].Id=\"$name.s3.amazonaws.com\"|.Origins.Items[0].DomainName=\"$name.s3.amazonaws.com\"|.DefaultCacheBehavior.TargetOriginId=\"$name.s3.amazonaws.com\"|.ViewerCertificate.ACMCertificateArn=\"$certificateArn\"|.CallerReference=\"$callerReference\"" scripts/distribution-config.json`
 aws cloudfront create-distribution --distribution-config file://<(echo $distributionConfig)
 
-distribution=`aws cloudfront list-distributions | jq ".DistributionList.Items[]|select(.Aliases.Items[]|contains(\"$name\"))"`
+distribution=`aws cloudfront list-distributions | jq ".DistributionList.Items[]|select(.Aliases.Items[]==\"$name\")"`
 domainName=`echo $distribution | jq .DomainName -r`
 hostedZoneId=`aws route53 list-hosted-zones-by-name --dns-name $hostedZoneName | jq '.HostedZones[0].Id' -r | rev | cut -d / -f1 | rev`
 changeBatch=`jq ".Changes[].ResourceRecordSet.Name=\"$name\"|.Changes[].ResourceRecordSet.AliasTarget.DNSName=\"$domainName\"" scripts/change-batch.json`

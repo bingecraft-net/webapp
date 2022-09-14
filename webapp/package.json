@@ -1,5 +1,5 @@
 {
-  "name": "humper",
+  "name": "bingecraft.net",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -21,8 +21,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "sync": "aws s3 sync build s3://humper.bingecraft.net",
-    "invalidate": "aws cloudfront create-invalidation --distribution-id E2T02KSJDQ3R1J --paths /",
+    "sync": "aws s3 sync build s3://bingecraft.net",
+    "invalidate": "aws cloudfront create-invalidation --distribution-id E2OWLPL9CYLEPE --paths /",
     "build sync invalidate": "for a in build sync invalidate ; do npm run $a ; done"
   },
   "eslintConfig": {
