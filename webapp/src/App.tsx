@@ -18,10 +18,13 @@ export default function App() {
       <div>
         <h2 style={{ margin: 0 }}>welcome</h2>
         <p style={{ margin: '0.5rem 0' }}>
-          You are invited to Glizzy's peaceful WAN party! Turn up the lofi,
-          grab a hot drink and cozy up with friends for some casual vanilla
-          Minecraft. We are swimming in pumpkin spice with an autumn server
-          theme.
+          Welcome to Glizzy's collaborative harvest server! The highs are
+          in the sixties so grab a sweater and a hot drink before you cozy
+          up with friends for a fall-inspired gather & build. You’ll wake
+          up in Spruce Hollow where you can pick up some supplies and help
+          out around town or hit the road. The server is themed around
+          working together and carving out homey spot to share the autumn
+          vibe.
         </p>
       </div>
       <div>
