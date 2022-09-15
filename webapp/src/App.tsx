@@ -48,6 +48,9 @@ export default function App() {
           <Link href="https://minecraftservers.biz/servers/151664/">
             MinecraftServers.biz
           </Link>
+          <Link href="https://mclike.com/minecraft-server-192073">
+            mclike.com
+          </Link>
           <Link href="https://servers-minecraft.net/server-bingecraft-net.22146">
             servers-minecraft.net
           </Link>
