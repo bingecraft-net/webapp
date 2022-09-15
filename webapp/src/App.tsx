@@ -45,6 +45,9 @@ export default function App() {
       <div>
         <h2 style={{ margin: 0 }}>server lists</h2>
         <p style={{ margin: '0.5rem 0' }}>
+          <Link href="https://minecraftservers.biz/servers/151664/">
+            MinecraftServers.biz
+          </Link>
           <Link href="https://servers-minecraft.net/server-bingecraft-net.22146">
             servers-minecraft.net
           </Link>
