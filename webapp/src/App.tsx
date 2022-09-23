@@ -33,7 +33,7 @@ export default function App() {
           <Link href="https://pbs.twimg.com/media/FFdKHA7X0AQCkVv?format=jpg&name=4096x4096">
             ore distribution
           </Link>
-          <Link href="https://discord.gg/FP426KQ8k9">discord</Link>
+          <Link href="https://discord.gg/SShpb4S2wq">discord</Link>
           <Link href="https://sordid-nightshade-1c3.notion.site/bingecraft-net-3a044ab1b24949e2a5058f025cb63152">
             notion.so
           </Link>
