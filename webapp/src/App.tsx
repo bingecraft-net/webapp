@@ -37,6 +37,9 @@ export default function App() {
           <Link href="mailto:glizzywort@gmail.com">
             email (glizzywort@gmail.com)
           </Link>
+          <Link href="https://www.planetminecraft.com/server/bingecraft-net/">
+            planetminecraft.com
+          </Link>
         </p>
       </div>
       <div>
@@ -47,9 +50,6 @@ export default function App() {
           </Link>
           <Link href="https://mclike.com/minecraft-server-192073">
             mclike.com
-          </Link>
-          <Link href="https://www.planetminecraft.com/server/bingecraft-net/">
-            planetminecraft.com
           </Link>
           <Link href="https://servers-minecraft.net/server-bingecraft-net.22146">
             servers-minecraft.net
