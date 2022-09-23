@@ -18,13 +18,11 @@ export default function App() {
       <div>
         <h2 style={{ margin: 0 }}>welcome</h2>
         <p style={{ margin: '0.5rem 0' }}>
-          Welcome to Glizzy's collaborative harvest server! The highs are
-          in the sixties so grab a sweater and a hot drink before you cozy
-          up with friends for a fall-inspired gather & build. You’ll wake
-          up in Spruce Hollow where you can pick up some supplies and help
-          out around town or hit the road. The server is themed around
-          working together and carving out homey spot to share the autumn
-          vibe.
+          Welcome to Glizzy's peaceful! We are a casual and collaborative
+          Minecraft server. The highs are in the sixties so grab a sweater
+          and a hot drink before settling in! We are a small new server
+          with full rollback protection so you can build at ease with our
+          friendly community.
         </p>
       </div>
       <div>
