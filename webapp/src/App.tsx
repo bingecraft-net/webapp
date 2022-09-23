@@ -34,9 +34,6 @@ export default function App() {
             ore distribution
           </Link>
           <Link href="https://discord.gg/SShpb4S2wq">discord</Link>
-          <Link href="https://sordid-nightshade-1c3.notion.site/bingecraft-net-3a044ab1b24949e2a5058f025cb63152">
-            notion.so
-          </Link>
           <Link href="mailto:glizzywort@gmail.com">
             email (glizzywort@gmail.com)
           </Link>
