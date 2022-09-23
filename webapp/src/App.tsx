@@ -36,7 +36,7 @@ export default function App() {
             email (glizzywort@gmail.com)
           </Link>
           <Link href="https://www.planetminecraft.com/server/bingecraft-net/">
-            planetminecraft.com
+            our planetminecraft page
           </Link>
         </p>
       </div>
