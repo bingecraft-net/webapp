@@ -28,6 +28,7 @@ export default function App() {
       <div>
         <h2 style={{ margin: 0 }}>links</h2>
         <p style={{ margin: '0.5rem 0' }}>
+          <Link href="https://map.bingecraft.net/">map</Link>
           <Link href="https://pbs.twimg.com/media/FFdKHA7X0AQCkVv?format=jpg&name=4096x4096">
             ore distribution
           </Link>
