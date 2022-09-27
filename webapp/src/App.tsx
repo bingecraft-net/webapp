@@ -18,11 +18,13 @@ export default function App() {
       <div>
         <h2 style={{ margin: 0 }}>welcome</h2>
         <p style={{ margin: '0.5rem 0' }}>
-          Welcome to Glizzy's peaceful! We are a casual and collaborative
-          Minecraft server. The highs are in the sixties so grab a sweater
-          and a hot drink before settling in! We are a small new server
-          with full rollback protection so you can build at ease with our
-          friendly community.
+          Two days of peace. One night of terror. The highs are in the
+          sixties and the undead are around the bend so grab a sweater and
+          a battle axe before you settle into Glizzys Bloodmoon SMP! We're
+          looking for new friends to join our autumn-themed town, Hollow
+          Lake. With full rollback protection you can build at ease with
+          our easy going community. Pop into the Discord, say hi and see if
+          we are a good fit for you!
         </p>
       </div>
       <div>
