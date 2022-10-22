@@ -18,13 +18,14 @@ export default function App() {
       <div>
         <h2 style={{ margin: 0 }}>welcome</h2>
         <p style={{ margin: '0.5rem 0' }}>
-          Two days of peace. One night of terror. The highs are in the
-          sixties and the undead are around the bend so grab a sweater and
-          a battle axe before you settle into Glizzys Bloodmoon SMP! We're
-          looking for new friends to join our autumn-themed town, Hollow
-          Lake. With full rollback protection you can build at ease with
-          our easy going community. Pop into the Discord, say hi and see if
-          we are a good fit for you!
+          Welcome to Glizzy’s Marinade! We like to build and make friends.
+          We have a new, very small server with grief response, looting
+          prevention, skills, dynmap. We don’t have any warps so the town
+          is very intimate. Come join our growing community and help us
+          build a cozy autumn town! I’m your server operator Glizzy and I’m
+          a big geek who understands running a server. I enforce the rules
+          (no griefing, no looting, no being a douchebag). I hope to meet
+          you soon!
         </p>
       </div>
       <div>
