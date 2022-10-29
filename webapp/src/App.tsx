@@ -10,8 +10,9 @@ export default function App() {
         grief response, looting prevention, skills, and dynmap. Every third
         night a bloodmoon will raise the difficulty in the spawn region
         from peaceful to hard. The nether, the end, and the highlands are
-        permanently hard difficulty! Come join our growing community and
-        build your house in the cozy autumn town!
+        permanently hard difficulty! We have a few custom recipes including
+        cheaper netherite repair and magma cream smelting. Come join our
+        growing community and build your house in the cozy autumn town!
       </p>
       <p style={{ margin: '0.5rem 0' }}>
         I’m your server operator, Glizzy. I’m a big geek and I enjoy
