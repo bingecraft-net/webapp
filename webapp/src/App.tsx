@@ -4,7 +4,7 @@ export default function App() {
   return (
     <div style={{ padding: '1rem' }}>
       <h1>glizzy's marinade smp</h1>
-      <h3>easy-going community, cute town, harsh wilderness</h3>
+      <h3>cute town, harsh wilderness, easy-going community</h3>
       <p style={{ margin: '0.5rem 0' }}>
         Welcome to Glizzy’s Marinade SMP! We are a small LGBT+ friendly
         community with grief response, looting prevention, skills, and
