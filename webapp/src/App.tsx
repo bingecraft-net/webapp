@@ -5,7 +5,7 @@ export default function App() {
     <div style={{ padding: '1rem' }}>
       <h1>glizzy's marinade smp</h1>
       <h3>cute town, harsh wilderness, easy-going community</h3>
-      <p style={{ margin: '0.5rem 0' }}>
+      <Text>
         Welcome to Glizzy’s Marinade SMP! We are a small LGBT+ friendly
         community with grief response, looting prevention, skills, and
         dynmap. Every third night a bloodmoon will raise the difficulty in
@@ -14,13 +14,13 @@ export default function App() {
         recipes including cheaper netherite repair and magma cream
         smelting. Come join our growing community and build your house in
         the cozy autumn town!
-      </p>
-      <p style={{ margin: '0.5rem 0' }}>
+      </Text>
+      <Text>
         I’m your server operator, Glizzy. I’m a big geek and I enjoy
         writing code, running servers, and building towns. I enforce the
         rules (no griefing, no looting, no being a douchebag). Find me
         in-game!
-      </p>
+      </Text>
       <h2>links</h2>
       <p>
         <Link href="https://map.bingecraft.net/">map</Link>
@@ -56,4 +56,8 @@ function Link({ children, href }: LinkProps) {
       {children}
     </a>
   )
+}
+
+function Text(props: React.PropsWithChildren) {
+  return <p style={{ margin: '0.5rem 0' }} {...props} />
 }
