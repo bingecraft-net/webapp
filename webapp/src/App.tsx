@@ -21,6 +21,16 @@ export default function App() {
         rules (no griefing, no looting, no being a douchebag). Find me
         in-game!
       </Text>
+      <h2>how to connect</h2>
+      <Text>
+        We require Minecraft: Java Edition version 1.19.2. In the
+        multiplayer menu, enter{' '}
+        <code
+        >
+          bingecraft.net
+        </code>{' '}
+        into the server address field and connect!
+      </Text>
       <h2>links</h2>
       <p>
         <Link href="https://map.bingecraft.net/">map</Link>
