@@ -2,6 +2,6 @@
 
 minecraft server landing page
 
-## cd
+## deploy to yagni
 
-`npm run "build sync invalidate"`
+`npm run "build sync"`
