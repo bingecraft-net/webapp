@@ -59,6 +59,9 @@ export default function App() {
           <Link href="https://www.planetminecraft.com/server/bingecraft-net/">
             our planetminecraft page
           </Link>
+          <Link href="https://github.com/bingecraft-net">
+            github
+          </Link>
         </p>
       </div>
     </div>
