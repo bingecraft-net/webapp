@@ -21,7 +21,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "sync": "rsync -avr --progress build/ yagni:faster/bingecraft.net/html/",
+    "sync": "rsync -avr --progress build/ bingecraft@yagni:webapp/html/",
     "build sync": "for a in build sync ; do npm run $a ; done"
   },
   "eslintConfig": {
