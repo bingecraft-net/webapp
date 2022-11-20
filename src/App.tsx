@@ -52,7 +52,7 @@ export default function App() {
           <Link href="https://pbs.twimg.com/media/FFdKHA7X0AQCkVv?format=jpg&name=4096x4096">
             ore distribution
           </Link>
-          <Link href="https://discord.gg/SShpb4S2wq">discord</Link>
+          <Link href="https://discord.gg/j8UyKuDeBf">discord</Link>
           <Link href="mailto:glizzywort@gmail.com">
             email (glizzywort@gmail.com)
           </Link>
